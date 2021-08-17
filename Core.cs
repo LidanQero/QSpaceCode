@@ -12,11 +12,11 @@ namespace Master.QSpaceCode
         
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
-        public static IGameInfoStorage GameInfoStorage => ServicesMediator.gameInfoStorage;
-        public static IPunInfoStorage PunInfoStorage => ServicesMediator.punInfoStorage;
+        public static IGameInfoKeeper GameInfoKeeper => ServicesMediator.gameInfoKeeper;
+        public static IPunInfoKeeper PunInfoKeeper => ServicesMediator.punInfoKeeper;
         public static IUiStateKeeper UiStateKeeper => ServicesMediator.uiStateKeeper;
-        public static IUiInputListener UiInputListener => ServicesMediator.uiInputListener;
-        public static IViewersManager ViewersManager => ServicesMediator.viewersManager;
+        public static IUiInputKeeper UiInputKeeper => ServicesMediator.uiInputKeeper;
+        public static IViewersKeeper ViewersKeeper => ServicesMediator.viewersKeeper;
 
         private static Core singleton;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
-    public sealed class PunCallbackService : Service, IPunCallbackService, IPunInfoStorage
+    public sealed class PunCallbackService : Service, IPunCallbackService, IPunInfoKeeper
     {
         public PunCallbackService(ServicesMediator newServicesMediator) : base(newServicesMediator)
         {

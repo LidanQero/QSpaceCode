@@ -2,12 +2,12 @@
 
 namespace Master.QSpaceCode
 {
-    public interface IGameInfoStorage
+    public interface IGameInfoKeeper
     {
         
     }
 
-    public interface IPunInfoStorage
+    public interface IPunInfoKeeper
     {
         
     }
@@ -21,12 +21,12 @@ namespace Master.QSpaceCode
         event Action<MultiplayerMenuState> ChangeMultiplayerMenuStateEvent;
     }
 
-    public interface IUiInputListener
+    public interface IUiInputKeeper
     {
         
     }
 
-    public interface IViewersManager
+    public interface IViewersKeeper
     {
         
     }

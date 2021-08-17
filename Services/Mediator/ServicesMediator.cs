@@ -24,11 +24,11 @@ namespace Master.QSpaceCode.Services.Mediator
                 (Service) scenesService
             };
 
-            gameInfoStorage = gameInfoService as IGameInfoStorage;
-            punInfoStorage = punCallbackService as IPunInfoStorage;
+            gameInfoKeeper = gameInfoService as IGameInfoKeeper;
+            punInfoKeeper = punCallbackService as IPunInfoKeeper;
             uiStateKeeper = uiService as IUiStateKeeper;
-            uiInputListener = inputService as IUiInputListener;
-            viewersManager = gameLogicService as IViewersManager;
+            uiInputKeeper = inputService as IUiInputKeeper;
+            viewersKeeper = gameLogicService as IViewersKeeper;
         }
 
         private readonly IGameInfoService gameInfoService;
@@ -38,11 +38,11 @@ namespace Master.QSpaceCode.Services.Mediator
         private readonly IPunCallbackService punCallbackService;
         private readonly IScenesService scenesService;
 
-        public readonly IGameInfoStorage gameInfoStorage;
-        public readonly IPunInfoStorage punInfoStorage;
+        public readonly IGameInfoKeeper gameInfoKeeper;
+        public readonly IPunInfoKeeper punInfoKeeper;
         public readonly IUiStateKeeper uiStateKeeper;
-        public readonly IUiInputListener uiInputListener;
-        public readonly IViewersManager viewersManager;
+        public readonly IUiInputKeeper uiInputKeeper;
+        public readonly IViewersKeeper viewersKeeper;
 
         private readonly Service[] services;
 

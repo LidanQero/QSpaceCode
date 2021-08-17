@@ -3,7 +3,7 @@ using Master.QSpaceCode.Services.ServicesInterfaces;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
-    public sealed class InputService : Service, IInputService, IUiInputListener
+    public sealed class InputService : Service, IInputService, IUiInputKeeper
     {
         public InputService(ServicesMediator newServicesMediator) : base(newServicesMediator)
         {
