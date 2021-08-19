@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
-using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -42,43 +41,69 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             }
         }
 
-        public void CloseCurrentWindow()
+        public void CloseCurrentUiArea()
         {
             closeWindowsActions.Pop().Invoke();
         }
 
-        public void OpenMainMenu()
+        public void OpenMainMenuTitle()
         {
             closeWindowsActions.Clear();
             SetMainMenuState(MainMenuState.Title);
         }
 
-        public void OpenSingleplayer()
+        public void OpenMainMenuSingleplayer()
         {
-            closeWindowsActions.Push(delegate { SetMainMenuState(mainMenuState); });
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
             SetMainMenuState(MainMenuState.Singleplayer);
         }
 
-        public void OpenMultiplayer()
+        public void OpenMainMenuMultiplayer()
         {
-            closeWindowsActions.Push(delegate { SetMainMenuState(mainMenuState); });
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
             SetMainMenuState(MainMenuState.Multiplayer);
         }
 
-        public void OpenRoomSettings()
+        public void OpenMainMenuRoomSettings()
         {
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
             SetMultiplayerState(MultiplayerMenuState.RoomSettings);
         }
 
-        public void CloseRoomSettings()
+        public void CloseMainMenuRoomSettings()
         {
             SetMultiplayerState(MultiplayerMenuState.Lobby);
         }
 
-        public void OpenShipEditor()
+        public void OpenMainMenuShipEditor()
         {
-            closeWindowsActions.Push(delegate { SetMainMenuState(mainMenuState); });
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
             SetMainMenuState(MainMenuState.ShipEditor);
+        }
+
+        public void OpenMainMenuGameSettings()
+        {
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            SetMainMenuState(MainMenuState.GameSettings);
+        }
+
+        public void OpenMainMenuGraphicSettings()
+        {
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            SetMainMenuState(MainMenuState.GraphicSettings);
+        }
+
+        public void OpenMainMenuExit()
+        {
+            var newState = (MainMenuState) (int) mainMenuState;
+            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            SetMainMenuState(MainMenuState.Exit);
         }
 
         private void SetMainMenuState(MainMenuState newState)

@@ -4,13 +4,16 @@ namespace Master.QSpaceCode.Services.ServicesInterfaces
 {
     public interface IUiService
     {
-        void CloseCurrentWindow();
+        void CloseCurrentUiArea();
         void UpdatePunState(PunState punState);
-        void OpenMainMenu();
-        void OpenSingleplayer();
-        void OpenMultiplayer();
-        void OpenRoomSettings();
-        void CloseRoomSettings();
-        void OpenShipEditor();
+        void OpenMainMenuTitle();
+        void OpenMainMenuSingleplayer();
+        void OpenMainMenuMultiplayer();
+        void OpenMainMenuRoomSettings();
+        void CloseMainMenuRoomSettings();
+        void OpenMainMenuShipEditor();
+        void OpenMainMenuGameSettings();
+        void OpenMainMenuGraphicSettings();
+        void OpenMainMenuExit();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Master.QSpaceCode
 {
@@ -9,7 +11,7 @@ namespace Master.QSpaceCode
         [SerializeField] private ScenesConfig scenesConfig;
 
         public static ScenesConfig ScenesConfig => singleton.scenesConfig;
-        
+
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
         public static IGameInfoKeeper GameInfoKeeper => ServicesMediator.gameInfoKeeper;
@@ -19,6 +21,8 @@ namespace Master.QSpaceCode
         public static IViewersKeeper ViewersKeeper => ServicesMediator.viewersKeeper;
 
         private static Core singleton;
+
+        public static UiHelper UIHelper { get; } = new UiHelper();
 
         private void Awake()
         {
@@ -41,6 +45,7 @@ namespace Master.QSpaceCode
         private void Update()
         {
             ServicesMediator.Runtime();
+            UIHelper.UpdateHelper();
         }
     }
 }

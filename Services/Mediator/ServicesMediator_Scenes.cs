@@ -1,10 +1,10 @@
 ﻿namespace Master.QSpaceCode.Services.Mediator
 {
-    public partial class ServicesMediator
+    public sealed partial class ServicesMediator
     {
         public void FinishLoadingMenuScene()
         {
-            uiService.OpenMainMenu();
+            uiService.OpenMainMenuTitle();
         }
     }
 }

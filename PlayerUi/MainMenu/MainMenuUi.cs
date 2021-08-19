@@ -8,6 +8,9 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         [SerializeField] private MainMenuSingleplayer mainMenuSingleplayer;
         [SerializeField] private MainMenuMultiplayer mainMenuMultiplayer;
         [SerializeField] private MainMenuShipEditor mainMenuShipEditor;
+        [SerializeField] private MainMenuGameSettings mainMenuGameSettings;
+        [SerializeField] private MainMenuGraphicSettings mainMenuGraphicSettings;
+        [SerializeField] private MainMenuExit mainMenuExit;
 
         private void OnEnable()
         {
@@ -30,6 +33,9 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
                 case MainMenuState.Singleplayer: mainMenuSingleplayer.Open(); break;
                 case MainMenuState.Multiplayer: mainMenuMultiplayer.Open(); break;
                 case MainMenuState.ShipEditor: mainMenuShipEditor.Open(); break;
+                case MainMenuState.GameSettings: mainMenuGameSettings.Open(); break;
+                case MainMenuState.GraphicSettings: mainMenuGraphicSettings.Open(); break;
+                case MainMenuState.Exit: mainMenuExit.Open(); break;
             }
         }
 
@@ -39,6 +45,9 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
             mainMenuSingleplayer.Close();
             mainMenuMultiplayer.Close();
             mainMenuShipEditor.Close();
+            mainMenuGameSettings.Close();
+            mainMenuGraphicSettings.Close();
+            mainMenuExit.Close();
         }
     }
 }
