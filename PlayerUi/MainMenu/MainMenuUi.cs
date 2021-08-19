@@ -37,6 +37,8 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
                 case MainMenuState.GraphicSettings: mainMenuGraphicSettings.Open(); break;
                 case MainMenuState.Exit: mainMenuExit.Open(); break;
             }
+            
+            Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.WindowOpened);
         }
 
         private void CloseAllWindows()

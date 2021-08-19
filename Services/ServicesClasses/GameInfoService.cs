@@ -24,12 +24,18 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             switch (Application.systemLanguage)
             {
                 case SystemLanguage.Russian:
-                    LocalizationManager.Language = "Russian";
+                    ChangeLanguage("Russian");
                     break;
                 default:
-                    LocalizationManager.Language = "English";
+                    ChangeLanguage("English");
                     break;
             }
+        }
+
+        private void ChangeLanguage(string value)
+        {
+            LocalizationManager.Language = value;
+            ChangeLocalizationEvent?.Invoke();
         }
 
         public string GetLocalizedText(string key)

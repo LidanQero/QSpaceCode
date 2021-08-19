@@ -1,5 +1,6 @@
 ﻿using System;
 using Master.QSpaceCode.PlayerUi;
+using UnityEngine;
 
 namespace Master.QSpaceCode
 {
@@ -37,5 +38,10 @@ namespace Master.QSpaceCode
     public interface IViewersKeeper
     {
         
+    }
+
+    public interface ISoundsKeeper
+    {
+        void PlayUiSound(AudioClip audioClip);
     }
 }

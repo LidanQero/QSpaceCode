@@ -3,6 +3,7 @@ using Master.QSpaceCode.PlayerUi;
 using Master.QSpaceCode.PlayerUi.MainMenu.MainMenuButtons;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
+using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -42,7 +43,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             defaultInputActions.SystemMap.XboxActive.started += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Xbox) return;
-                currentSystemInputMap = SystemInputMap.Keyboard;
+                currentSystemInputMap = SystemInputMap.Xbox;
                 ChangeSystemInputMapEvent?.Invoke(currentSystemInputMap);
             };
         }

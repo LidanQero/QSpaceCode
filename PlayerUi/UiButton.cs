@@ -16,7 +16,11 @@ namespace Master.QSpaceCode.PlayerUi
         private void Awake()
         {
             button = GetComponent<Button>();
-            button.onClick.AddListener(delegate { ButtonUsingEvent?.Invoke(); });
+            button.onClick.AddListener(delegate
+            {
+                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonPressed);
+                ButtonUsingEvent?.Invoke();
+            });
         }
 
         protected virtual void OnEnable()
@@ -46,7 +50,7 @@ namespace Master.QSpaceCode.PlayerUi
         {
             if (Core.UIHelper.LastSelectedGameObject != gameObject)
             {
-                //TODO: Здесь играть звук выделения
+                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonSelected);
             }
         }
 

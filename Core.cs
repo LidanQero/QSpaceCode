@@ -1,16 +1,16 @@
 ﻿using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Master.QSpaceCode
 {
     public sealed class Core : MonoBehaviour
     {
         [SerializeField] private ScenesConfig scenesConfig;
+        [SerializeField] private AudioConfig audioConfig;
 
         public static ScenesConfig ScenesConfig => singleton.scenesConfig;
+        public static AudioConfig AudioConfig => singleton.audioConfig;
 
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
@@ -19,6 +19,7 @@ namespace Master.QSpaceCode
         public static IUiStateKeeper UiStateKeeper => ServicesMediator.uiStateKeeper;
         public static IUiInputKeeper UiInputKeeper => ServicesMediator.uiInputKeeper;
         public static IViewersKeeper ViewersKeeper => ServicesMediator.viewersKeeper;
+        public static ISoundsKeeper SoundsKeeper => ServicesMediator.soundsKeeper;
 
         private static Core singleton;
 
