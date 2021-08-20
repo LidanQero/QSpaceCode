@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.SimpleLocalization;
 using Master.QSpaceCode.Services.Mediator;
@@ -22,8 +23,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private PostProcessLayer postProcessLayer;
         private PostProcessVolume postProcessVolume;
-
-        private const string ResolutionPrefs = "Resolution";
+        
         private const string FullscreenPrefs = "FullscreenPrefs";
         private const string QualityPrefs = "QualityPrefs";
         private const string AliasingPrefs = "AliasingPrefs";
@@ -47,7 +47,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             int localizationId = 0;
             if (Application.systemLanguage == SystemLanguage.Russian) localizationId = 1;
             
-            playerPrefsStorage.CheckDefaultInt(ResolutionPrefs, GetResolutionId());
             playerPrefsStorage.CheckDefaultInt(FullscreenPrefs, GetFullscreenId());
             playerPrefsStorage.CheckDefaultInt(QualityPrefs, GetQualityId());
             playerPrefsStorage.CheckDefaultInt(AliasingPrefs, GetAliasingId());
@@ -57,7 +56,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             playerPrefsStorage.CheckDefaultFloat(GameVolumePrefs, 0.8f);
             playerPrefsStorage.Save();
             
-            SetResolutionId(playerPrefsStorage.GetInt(ResolutionPrefs));
             SetFullscreenModeId(playerPrefsStorage.GetInt(FullscreenPrefs));
             SetQualityId(playerPrefsStorage.GetInt(QualityPrefs));
             SetAliasingId(playerPrefsStorage.GetInt(AliasingPrefs));
@@ -95,12 +93,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public string[] GetResolutionVariants()
         {
-            var resolutions = Screen.resolutions;
+            var resolutions = GetUniqueResolutions();
             var variants = new string[resolutions.Length];
             for (int i = 0; i < resolutions.Length; i++)
             {
                 Resolution res = resolutions[i];
-                variants[i] = $"{res.width} x {res.height} ({res.refreshRate})";
+                variants[i] = $"{res.width} x {res.height}";
             }
 
             return variants;
@@ -108,7 +106,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public int GetResolutionId()
         {
-            var resolutions = Screen.resolutions;
+            var resolutions = GetUniqueResolutions();
             var current = new Resolution
             {
                 height = Screen.height,
@@ -177,12 +175,11 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void SetResolutionId(int id)
         {
-            var resolutions = Screen.resolutions;
+            var resolutions = GetUniqueResolutions();
             Screen.SetResolution(
                 resolutions[id].width,
                 resolutions[id].height,
-                Screen.fullScreenMode,
-                resolutions[id].refreshRate);
+                Screen.fullScreenMode);
         }
 
         public void SetFullscreenModeId(int id)
@@ -261,7 +258,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void SaveSettings()
         {
-            playerPrefsStorage.SetInt(ResolutionPrefs, GetResolutionId());
             playerPrefsStorage.SetInt(FullscreenPrefs, GetFullscreenId());
             playerPrefsStorage.SetInt(QualityPrefs, GetQualityId());
             playerPrefsStorage.SetInt(AliasingPrefs, GetAliasingId());
@@ -270,6 +266,29 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             playerPrefsStorage.SetFloat(UiVolumePrefs, GetUiVolume());
             playerPrefsStorage.SetFloat(GameVolumePrefs, GetGameVolume());
             playerPrefsStorage.Save();
+        }
+
+        private Resolution[] GetUniqueResolutions()
+        {
+            var resolutions = Screen.resolutions;
+            var uniqueResolutions = new List<Resolution>();
+            foreach (var resolution in resolutions)
+            {
+                bool contain = false;
+                foreach (var uniqueResolution in uniqueResolutions)
+                {
+                    if (uniqueResolution.height == resolution.height &&
+                        uniqueResolution.width == resolution.width)
+                    {
+                        contain = true;
+                        break;
+                    }
+                }
+                if (contain) continue;
+                uniqueResolutions.Add(resolution);
+            }
+
+            return uniqueResolutions.ToArray();
         }
     }
 }

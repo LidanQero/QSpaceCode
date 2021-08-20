@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +12,7 @@ namespace Master.QSpaceCode.PlayerUi
     public abstract class UiDropdown : MonoBehaviour, IPointerEnterHandler, ISelectHandler
     {
         [SerializeField] private bool selectWhenEnterCursor = true;
-        
+
         public event Action<int> DropdownChangedValueEvent;
 
         protected TMP_Dropdown dropdown;
@@ -42,7 +43,7 @@ namespace Master.QSpaceCode.PlayerUi
             if (dropdown.navigation.mode == Navigation.Mode.None) return;
             if (!dropdown.interactable) return;
             if (EventSystem.current && EventSystem.current.currentSelectedGameObject &&
-                EventSystem.current.currentSelectedGameObject.GetComponent<UiDropdownOption>()) 
+                EventSystem.current.currentSelectedGameObject.GetComponent<UiDropdownOption>())
                 return;
             dropdown.Select();
         }
@@ -58,14 +59,9 @@ namespace Master.QSpaceCode.PlayerUi
         protected void LoadDropdownData(string[] values)
         {
             dropdown.ClearOptions();
-            
-            List<TMP_Dropdown.OptionData> optionDataList = new List<TMP_Dropdown.OptionData>();
-            foreach (var value in values)
-            {
-                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData();
-                optionData.text = value;
-                optionDataList.Add(optionData);
-            }
+
+            var optionDataList =
+                values.Select(value => new TMP_Dropdown.OptionData {text = value}).ToList();
 
             dropdown.AddOptions(optionDataList);
         }

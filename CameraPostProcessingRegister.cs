@@ -7,8 +7,8 @@ namespace Master.QSpaceCode
     {
         private void Awake()
         {
-            PostProcessLayer postProcessLayer = GetComponent<PostProcessLayer>();
-            PostProcessVolume postProcessVolume = GetComponent<PostProcessVolume>();
+            var postProcessLayer = GetComponent<PostProcessLayer>();
+            var postProcessVolume = GetComponent<PostProcessVolume>();
             Core.SettingsKeeper.SetCurrentPostProcess(postProcessVolume, postProcessLayer);
         }
     }

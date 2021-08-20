@@ -91,6 +91,10 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     mainMenuExitButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuExit;
                     break;
+                case ConfirmExitButton confirmExitButton:
+                    confirmExitButton.ButtonPressedEvent +=
+                        servicesMediator.Quit;
+                    break;
             }
         }
 
@@ -125,6 +129,10 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case MainMenuExitButton mainMenuExitButton:
                     mainMenuExitButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuExit;
+                    break;
+                case ConfirmExitButton confirmExitButton:
+                    confirmExitButton.ButtonPressedEvent -=
+                        servicesMediator.Quit;
                     break;
             }
         }
@@ -169,18 +177,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void AddToggle(UiToggle uiToggle)
         {
-            switch (uiToggle)
-            {
-                
-            }
+            
         }
 
         public void RemoveToggle(UiToggle uiToggle)
         {
-            switch (uiToggle)
-            {
-                
-            }
+            
         }
 
         public void AddDropdown(UiDropdown uiDropdown)

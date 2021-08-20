@@ -1,4 +1,6 @@
-﻿namespace Master.QSpaceCode.Services.Mediator
+﻿using UnityEngine;
+
+namespace Master.QSpaceCode.Services.Mediator
 {
     public sealed partial class ServicesMediator
     {
@@ -45,6 +47,11 @@
         public void SavePlayerSettings()
         {
             settingsService.SaveSettings();
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
         }
     }
 }
