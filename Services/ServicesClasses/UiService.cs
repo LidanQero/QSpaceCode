@@ -88,14 +88,22 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public void OpenMainMenuGameSettings()
         {
             var newState = (MainMenuState) (int) mainMenuState;
-            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            closeWindowsActions.Push(delegate
+            {
+                servicesMediator.SavePlayerSettings();
+                SetMainMenuState(newState);
+            });
             SetMainMenuState(MainMenuState.GameSettings);
         }
 
         public void OpenMainMenuGraphicSettings()
         {
             var newState = (MainMenuState) (int) mainMenuState;
-            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            closeWindowsActions.Push(delegate
+            {
+                servicesMediator.SavePlayerSettings();
+                SetMainMenuState(newState);
+            });
             SetMainMenuState(MainMenuState.GraphicSettings);
         }
 

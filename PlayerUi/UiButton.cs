@@ -9,7 +9,7 @@ namespace Master.QSpaceCode.PlayerUi
     {
         [SerializeField] private bool selectWhenEnterCursor = true;
 
-        public event Action ButtonUsingEvent;
+        public event Action ButtonPressedEvent;
         
         private Button button;
 
@@ -19,7 +19,7 @@ namespace Master.QSpaceCode.PlayerUi
             button.onClick.AddListener(delegate
             {
                 Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonPressed);
-                ButtonUsingEvent?.Invoke();
+                ButtonPressedEvent?.Invoke();
             });
         }
 

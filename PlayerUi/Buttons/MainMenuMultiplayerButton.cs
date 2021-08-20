@@ -1,4 +1,4 @@
-﻿namespace Master.QSpaceCode.PlayerUi.MainMenu.MainMenuButtons
+﻿namespace Master.QSpaceCode.PlayerUi.Buttons
 {
     public class MainMenuMultiplayerButton : UiButton
     {

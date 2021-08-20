@@ -18,18 +18,18 @@ namespace Master.QSpaceCode.PlayerUi
 
         private void OnEnable()
         {
-            Core.GameInfoKeeper.ChangeLocalizationEvent += Localize;
+            Core.SettingsKeeper.ChangeLocalizationEvent += Localize;
             Localize();
         }
 
         private void OnDisable()
         {
-            Core.GameInfoKeeper.ChangeLocalizationEvent -= Localize;
+            Core.SettingsKeeper.ChangeLocalizationEvent -= Localize;
         }
 
         private void Localize()
         {
-            tmpText.text = Core.GameInfoKeeper.GetLocalizedText(key);
+            tmpText.text = Core.SettingsKeeper.GetLocalizedText(key);
         }
     }
 }

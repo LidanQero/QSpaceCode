@@ -12,25 +12,27 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         public override void Open()
         {
             base.Open();
-            Invoke(nameof(SelectFirstSelectable), 0.01f);
+            if (lastSelectable)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                lastSelectable.Select();
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                firsSelectable.Select();
+            }
         }
 
         public override void Close()
         {
-            if (EventSystem.current)
+            if (gameObject.activeInHierarchy && EventSystem.current)
             {
                var selectedGo = EventSystem.current.currentSelectedGameObject;
                if (selectedGo) lastSelectable = selectedGo.GetComponent<Selectable>();
             }
             
             base.Close();
-        }
-
-        private void SelectFirstSelectable()
-        {
-            if (EventSystem.current) EventSystem.current.SetSelectedGameObject(null);
-            if (lastSelectable) lastSelectable.Select();
-            else firsSelectable.Select();
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System;
 using Master.QSpaceCode.PlayerUi;
-using Master.QSpaceCode.PlayerUi.MainMenu.MainMenuButtons;
+using Master.QSpaceCode.PlayerUi.Buttons;
+using Master.QSpaceCode.PlayerUi.Dropdowns;
+using Master.QSpaceCode.PlayerUi.Sliders;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
-using UnityEngine;
+using TMPro;
+using UnityEngine.EventSystems;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -15,7 +18,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public event Action<SystemInputMap> ChangeSystemInputMapEvent;
         public event Action InputCancelEvent;
-        
+
         private SystemInputMap currentSystemInputMap;
         private DefaultInputActions defaultInputActions;
 
@@ -26,8 +29,14 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             defaultInputActions = new DefaultInputActions();
             defaultInputActions.Enable();
 
-            defaultInputActions.UI.Cancel.performed += delegate { InputCancelEvent?.Invoke(); };
-            
+            defaultInputActions.UI.Cancel.performed += delegate
+            {
+                if (EventSystem.current && 
+                    EventSystem.current.
+                        currentSelectedGameObject.GetComponent<UiDropdownOption>()) return;
+                InputCancelEvent?.Invoke();
+            };
+
             defaultInputActions.SystemMap.MouseActive.performed += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Keyboard) return;
@@ -55,31 +64,31 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             switch (uiButton)
             {
                 case MainMenuBackButton mainMenuBackButton:
-                    mainMenuBackButton.ButtonUsingEvent +=
+                    mainMenuBackButton.ButtonPressedEvent +=
                         servicesMediator.CloseCurrentUiArea;
                     break;
                 case MainMenuMultiplayerButton mainMenuMultiplayerButton:
-                    mainMenuMultiplayerButton.ButtonUsingEvent +=
+                    mainMenuMultiplayerButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuMultiplayer;
                     break;
                 case MainMenuShipEditorButton mainMenuShipEditorButton:
-                    mainMenuShipEditorButton.ButtonUsingEvent +=
+                    mainMenuShipEditorButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuShipEditor;
                     break;
                 case MainMenuSingleplayerButton mainMenuSingleplayerButton:
-                    mainMenuSingleplayerButton.ButtonUsingEvent +=
+                    mainMenuSingleplayerButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuSingleplayer;
                     break;
                 case MainMenuGameSettingsButton mainMenuGameSettingsButton:
-                    mainMenuGameSettingsButton.ButtonUsingEvent +=
+                    mainMenuGameSettingsButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuGameSettings;
                     break;
                 case MainMenuGraphicSettingsButton mainMenuGraphicSettingsButton:
-                    mainMenuGraphicSettingsButton.ButtonUsingEvent +=
+                    mainMenuGraphicSettingsButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuGraphicSettings;
                     break;
                 case MainMenuExitButton mainMenuExitButton:
-                    mainMenuExitButton.ButtonUsingEvent +=
+                    mainMenuExitButton.ButtonPressedEvent +=
                         servicesMediator.OpenMainMenuExit;
                     break;
             }
@@ -90,32 +99,140 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             switch (uiButton)
             {
                 case MainMenuBackButton mainMenuBackButton:
-                    mainMenuBackButton.ButtonUsingEvent -=
+                    mainMenuBackButton.ButtonPressedEvent -=
                         servicesMediator.CloseCurrentUiArea;
                     break;
                 case MainMenuMultiplayerButton mainMenuMultiplayerButton:
-                    mainMenuMultiplayerButton.ButtonUsingEvent -=
+                    mainMenuMultiplayerButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuMultiplayer;
                     break;
                 case MainMenuShipEditorButton mainMenuShipEditorButton:
-                    mainMenuShipEditorButton.ButtonUsingEvent -=
+                    mainMenuShipEditorButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuShipEditor;
                     break;
                 case MainMenuSingleplayerButton mainMenuSingleplayerButton:
-                    mainMenuSingleplayerButton.ButtonUsingEvent -=
+                    mainMenuSingleplayerButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuSingleplayer;
                     break;
                 case MainMenuGameSettingsButton mainMenuGameSettingsButton:
-                    mainMenuGameSettingsButton.ButtonUsingEvent -=
+                    mainMenuGameSettingsButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuGameSettings;
                     break;
                 case MainMenuGraphicSettingsButton mainMenuGraphicSettingsButton:
-                    mainMenuGraphicSettingsButton.ButtonUsingEvent -=
+                    mainMenuGraphicSettingsButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuGraphicSettings;
                     break;
                 case MainMenuExitButton mainMenuExitButton:
-                    mainMenuExitButton.ButtonUsingEvent -=
+                    mainMenuExitButton.ButtonPressedEvent -=
                         servicesMediator.OpenMainMenuExit;
+                    break;
+            }
+        }
+
+        public void AddSlider(UiSlider uiSlider)
+        {
+            switch (uiSlider)
+            {
+                case MusicVolumeSlider musicVolumeSlider:
+                    musicVolumeSlider.SliderChangedValueEvent +=
+                        servicesMediator.ChangeMusicVolume;
+                    break;
+                case GameVolumeSlider gameVolumeSlider:
+                    gameVolumeSlider.SliderChangedValueEvent +=
+                        servicesMediator.ChangeGameVolume;
+                    break;
+                case UiVolumeSlider uiVolumeSlider:
+                    uiVolumeSlider.SliderChangedValueEvent +=
+                        servicesMediator.ChangeUiVolume;
+                    break;
+            }
+        }
+
+        public void RemoveSlider(UiSlider uiSlider)
+        {
+            switch (uiSlider)
+            {
+                case MusicVolumeSlider musicVolumeSlider:
+                    musicVolumeSlider.SliderChangedValueEvent -=
+                        servicesMediator.ChangeMusicVolume;
+                    break;
+                case GameVolumeSlider gameVolumeSlider:
+                    gameVolumeSlider.SliderChangedValueEvent -=
+                        servicesMediator.ChangeGameVolume;
+                    break;
+                case UiVolumeSlider uiVolumeSlider:
+                    uiVolumeSlider.SliderChangedValueEvent -=
+                        servicesMediator.ChangeUiVolume;
+                    break;
+            }
+        }
+
+        public void AddToggle(UiToggle uiToggle)
+        {
+            switch (uiToggle)
+            {
+                
+            }
+        }
+
+        public void RemoveToggle(UiToggle uiToggle)
+        {
+            switch (uiToggle)
+            {
+                
+            }
+        }
+
+        public void AddDropdown(UiDropdown uiDropdown)
+        {
+            switch (uiDropdown)
+            {
+                case ResolutionDropdown resolutionDropdown:
+                    resolutionDropdown.DropdownChangedValueEvent +=
+                        servicesMediator.ChangeResolution;
+                    break;
+                case QualityDropdown qualityDropdown:
+                    qualityDropdown.DropdownChangedValueEvent +=
+                        servicesMediator.ChangeQuality;
+                    break;
+                case AliasingDropdown aliasingDropdown:
+                    aliasingDropdown.DropdownChangedValueEvent +=
+                        servicesMediator.ChangeAliasing;
+                    break;
+                case FullscreenModeDropdown fullscreenModeDropdown:
+                    fullscreenModeDropdown.DropdownChangedValueEvent +=
+                        servicesMediator.ChangeFullscreenMode;
+                    break;
+                case LanguageDropdown languageDropdown:
+                    languageDropdown.DropdownChangedValueEvent +=
+                        servicesMediator.ChangeLocalization;
+                    break;
+            }
+        }
+
+        public void RemoveDropdown(UiDropdown uiDropdown)
+        {
+            switch (uiDropdown)
+            {
+                case ResolutionDropdown resolutionDropdown:
+                    resolutionDropdown.DropdownChangedValueEvent -=
+                        servicesMediator.ChangeResolution;
+                    break;
+                case QualityDropdown qualityDropdown:
+                    qualityDropdown.DropdownChangedValueEvent -=
+                        servicesMediator.ChangeQuality;
+                    break;
+                case AliasingDropdown aliasingDropdown:
+                    aliasingDropdown.DropdownChangedValueEvent -=
+                        servicesMediator.ChangeAliasing;
+                    break;
+                case FullscreenModeDropdown fullscreenModeDropdown:
+                    fullscreenModeDropdown.DropdownChangedValueEvent -=
+                        servicesMediator.ChangeFullscreenMode;
+                    break;
+                case LanguageDropdown languageDropdown:
+                    languageDropdown.DropdownChangedValueEvent -=
+                        servicesMediator.ChangeLocalization;
                     break;
             }
         }

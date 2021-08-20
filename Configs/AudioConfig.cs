@@ -12,15 +12,21 @@ namespace Master.QSpaceCode.Configs
         [Space] [SerializeField] private AudioClip buttonSelected;
         [SerializeField] private AudioClip buttonPressed;
         [SerializeField] private AudioClip windowOpened;
+        [SerializeField] private AudioClip sliderChanged;
+        [SerializeField] private AudioClip toggleChanged;
+        [SerializeField] private AudioClip dropdownChanged;
 
         public AudioMixerGroup UIMixer => uiMixer;
 
         public AudioMixerGroup MusicMixer => musicMixer;
 
         public AudioClip ButtonSelected => buttonSelected;
-
         public AudioClip ButtonPressed => buttonPressed;
         public AudioClip WindowOpened => windowOpened;
+        public AudioClip SliderChanged => sliderChanged;
+        public AudioClip ToggleChanged => toggleChanged;
+        public AudioClip DropdownChanged => dropdownChanged;
+
 
         public AudioClip[] MenuMusics => menuMusics;
 

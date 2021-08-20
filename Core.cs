@@ -9,12 +9,16 @@ namespace Master.QSpaceCode
         [SerializeField] private ScenesConfig scenesConfig;
         [SerializeField] private AudioConfig audioConfig;
 
-        public static ScenesConfig ScenesConfig => singleton.scenesConfig;
-        public static AudioConfig AudioConfig => singleton.audioConfig;
+        public static ScenesConfig ScenesConfig =>
+            singleton ? singleton.scenesConfig : FindObjectOfType<Core>().scenesConfig;
+
+        public static AudioConfig AudioConfig =>
+            singleton ? singleton.audioConfig : FindObjectOfType<Core>().audioConfig;
 
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
         public static IGameInfoKeeper GameInfoKeeper => ServicesMediator.gameInfoKeeper;
+        public static ISettingsKeeper SettingsKeeper => ServicesMediator.settingsKeeper;
         public static IPunInfoKeeper PunInfoKeeper => ServicesMediator.punInfoKeeper;
         public static IUiStateKeeper UiStateKeeper => ServicesMediator.uiStateKeeper;
         public static IUiInputKeeper UiInputKeeper => ServicesMediator.uiInputKeeper;
