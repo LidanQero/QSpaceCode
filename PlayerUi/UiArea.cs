@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Master.QSpaceCode.PlayerUi
 {
@@ -12,6 +13,16 @@ namespace Master.QSpaceCode.PlayerUi
         public virtual void Close()
         {
             gameObject.SetActive(false);
+        }
+
+        protected virtual void OnEnable()
+        {
+            
+        }
+
+        protected virtual void OnDisable()
+        {
+            
         }
     }
 }

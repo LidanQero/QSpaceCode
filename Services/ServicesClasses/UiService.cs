@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
+using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -19,14 +20,14 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private readonly Stack<Action> closeWindowsActions = new Stack<Action>();
 
-            public MainMenuState GetMainMenuState() => mainMenuState;
+        public MainMenuState GetMainMenuState() => mainMenuState;
         public MultiplayerMenuState GetMultiplayerMenuState() => multiplayerMenuState;
 
         public void UpdatePunState(PunState punState)
         {
             switch (punState)
             {
-                case PunState.ConnectedToMaster:
+                case PunState.Login:
                     SetMultiplayerState(MultiplayerMenuState.Login);
                     break;
                 case PunState.ConnectedToLobby:
@@ -68,8 +69,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void OpenMainMenuRoomSettings()
         {
-            var newState = (MainMenuState) (int) mainMenuState;
-            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
             SetMultiplayerState(MultiplayerMenuState.RoomSettings);
         }
 

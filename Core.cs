@@ -8,12 +8,16 @@ namespace Master.QSpaceCode
     {
         [SerializeField] private ScenesConfig scenesConfig;
         [SerializeField] private AudioConfig audioConfig;
+        [SerializeField] private UiConfig uiConfig;
 
         public static ScenesConfig ScenesConfig =>
             singleton ? singleton.scenesConfig : FindObjectOfType<Core>().scenesConfig;
 
         public static AudioConfig AudioConfig =>
             singleton ? singleton.audioConfig : FindObjectOfType<Core>().audioConfig;
+
+        public static UiConfig UiConfig =>
+            singleton ? singleton.uiConfig : FindObjectOfType<Core>().uiConfig;
 
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 

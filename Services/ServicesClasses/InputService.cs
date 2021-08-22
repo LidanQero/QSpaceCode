@@ -31,9 +31,16 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
             defaultInputActions.UI.Cancel.performed += delegate
             {
-                if (EventSystem.current && 
-                    EventSystem.current.
-                        currentSelectedGameObject.GetComponent<UiDropdownOption>()) return;
+                if (EventSystem.current)
+                {
+                    if (EventSystem.current.currentSelectedGameObject
+                        .GetComponent<UiDropdownOption>()) return;
+                    if (EventSystem.current.currentSelectedGameObject
+                        .GetComponent<TMP_InputField>() && 
+                        EventSystem.current.currentSelectedGameObject
+                            .GetComponent<TMP_InputField>().isFocused) return;
+                }
+
                 InputCancelEvent?.Invoke();
             };
 
@@ -63,7 +70,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             switch (uiButton)
             {
-                case MainMenuBackButton mainMenuBackButton:
+                case BackButton mainMenuBackButton:
                     mainMenuBackButton.ButtonPressedEvent +=
                         servicesMediator.CloseCurrentUiArea;
                     break;
@@ -95,6 +102,33 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     confirmExitButton.ButtonPressedEvent +=
                         servicesMediator.Quit;
                     break;
+                case MainMenuGenerateNewLoginButton generateNewLoginButton:
+                    generateNewLoginButton.ButtonPressedEvent +=
+                        servicesMediator.GenerateNewLogin;
+                    break;
+                case MainMenuLoginButton connectToMasterButton:
+                    connectToMasterButton.ButtonPressedEvent +=
+                        servicesMediator.ConnectToMaster;
+                    break;
+                case OpenRoomSettingsButton openRoomSettingsButton:
+                    openRoomSettingsButton.ButtonPressedEvent +=
+                        servicesMediator.OpenMainMenuRoomSettings;
+                    break;
+                case MainMenuCancelRoomSettingsButton cancelRoomSettingsButton:
+                    cancelRoomSettingsButton.ButtonPressedEvent +=
+                        servicesMediator.CloseMainMenuRoomSettings;
+                    break;
+                case RoomButton roomButton:
+                    roomButton.UseRoomButtonEvent += TryConnectToRoom;
+                    break;
+                case MainMenuDisconnectButton menuDisconnectButton:
+                    menuDisconnectButton.ButtonPressedEvent +=
+                        servicesMediator.Disconnect;
+                    break;
+                case MainMenuCreateRoomButton createRoomButton:
+                    createRoomButton.ButtonPressedEvent +=
+                        servicesMediator.CreateWantedRoom;
+                    break;
             }
         }
 
@@ -102,7 +136,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             switch (uiButton)
             {
-                case MainMenuBackButton mainMenuBackButton:
+                case BackButton mainMenuBackButton:
                     mainMenuBackButton.ButtonPressedEvent -=
                         servicesMediator.CloseCurrentUiArea;
                     break;
@@ -134,7 +168,39 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     confirmExitButton.ButtonPressedEvent -=
                         servicesMediator.Quit;
                     break;
+                case MainMenuGenerateNewLoginButton generateNewLoginButton:
+                    generateNewLoginButton.ButtonPressedEvent -=
+                        servicesMediator.GenerateNewLogin;
+                    break;
+                case MainMenuLoginButton connectToMasterButton:
+                    connectToMasterButton.ButtonPressedEvent -=
+                        servicesMediator.ConnectToMaster;
+                    break;
+                case OpenRoomSettingsButton openRoomSettingsButton:
+                    openRoomSettingsButton.ButtonPressedEvent -=
+                        servicesMediator.OpenMainMenuRoomSettings;
+                    break;
+                case MainMenuCancelRoomSettingsButton cancelRoomSettingsButton:
+                    cancelRoomSettingsButton.ButtonPressedEvent -=
+                        servicesMediator.CloseMainMenuRoomSettings;
+                    break;
+                case RoomButton roomButton:
+                    roomButton.UseRoomButtonEvent -= TryConnectToRoom;
+                    break;
+                case MainMenuDisconnectButton menuDisconnectButton:
+                    menuDisconnectButton.ButtonPressedEvent -=
+                        servicesMediator.Disconnect;
+                    break;
+                case MainMenuCreateRoomButton createRoomButton:
+                    createRoomButton.ButtonPressedEvent -=
+                        servicesMediator.CreateWantedRoom;
+                    break;
             }
+        }
+
+        private void TryConnectToRoom(RoomButton roomButton)
+        {
+            servicesMediator.ConnectToRoom(roomButton.RoomName);
         }
 
         public void AddSlider(UiSlider uiSlider)
@@ -209,6 +275,10 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     languageDropdown.DropdownChangedValueEvent +=
                         servicesMediator.ChangeLocalization;
                     break;
+                case PlayersCountDropdown playersCountDropdown:
+                    playersCountDropdown.DropdownChangedValueEvent +=
+                        SetPlayersCountForRoom;
+                    break;
             }
         }
 
@@ -236,7 +306,16 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     languageDropdown.DropdownChangedValueEvent -=
                         servicesMediator.ChangeLocalization;
                     break;
+                case PlayersCountDropdown playersCountDropdown:
+                    playersCountDropdown.DropdownChangedValueEvent -=
+                        SetPlayersCountForRoom;
+                    break;
             }
+        }
+
+        private void SetPlayersCountForRoom(int dropdownId)
+        {
+            servicesMediator.SetWantedRoomPlayersCount(dropdownId + 2);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Master.QSpaceCode.Services.Mediator
             inputService = new InputService(this);
             uiService = new UiService(this);
             gameLogicService = new GameLogicService(this);
-            punCallbackService = new PunCallbackService(this);
+            punService = new PunService(this);
             scenesService = new ScenesService(this);
             soundService = new SoundService(this);
             settingsService = new SettingsService(this);
@@ -22,14 +22,14 @@ namespace Master.QSpaceCode.Services.Mediator
                 (Service) gameInfoService,
                 (Service) uiService,
                 (Service) gameLogicService,
-                (Service) punCallbackService,
+                (Service) punService,
                 (Service) scenesService,
                 (Service) soundService,
                 (Service) settingsService
             };
 
             gameInfoKeeper = gameInfoService as IGameInfoKeeper;
-            punInfoKeeper = punCallbackService as IPunInfoKeeper;
+            punInfoKeeper = punService as IPunInfoKeeper;
             uiStateKeeper = uiService as IUiStateKeeper;
             uiInputKeeper = inputService as IUiInputKeeper;
             viewersKeeper = gameLogicService as IViewersKeeper;
@@ -41,7 +41,7 @@ namespace Master.QSpaceCode.Services.Mediator
         private readonly IInputService inputService;
         private readonly IUiService uiService;
         private readonly IGameLogicService gameLogicService;
-        private readonly IPunCallbackService punCallbackService;
+        private readonly IPunService punService;
         private readonly IScenesService scenesService;
         private readonly ISoundService soundService;
         private readonly ISettingsService settingsService;

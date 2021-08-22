@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Master.QSpaceCode.PlayerUi.MainMenu
 {
-    public class MainMenuGraphicSettings : SingleWindow
+    public class MainMenuLoginWindow : SingleWindow
     {
         [SerializeField] private Selectable firsSelectable;
 

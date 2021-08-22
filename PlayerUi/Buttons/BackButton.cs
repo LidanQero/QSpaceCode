@@ -1,6 +1,6 @@
 ﻿namespace Master.QSpaceCode.PlayerUi.Buttons
 {
-    public class MainMenuBackButton : UiButton
+    public class BackButton : UiButton
     {
         protected override void OnEnable()
         {

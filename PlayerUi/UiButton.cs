@@ -13,7 +13,7 @@ namespace Master.QSpaceCode.PlayerUi
         
         private Button button;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             button = GetComponent<Button>();
             button.onClick.AddListener(delegate

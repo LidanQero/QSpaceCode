@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Master.QSpaceCode.PlayerUi.MainMenu
 {
-    public class MainMenuGraphicSettings : SingleWindow
+    public class MainMenuRoomSettingsWindow : SingleWindow
     {
-        [SerializeField] private Selectable firsSelectable;
+        [SerializeField] private Selectable firstSelectable;
 
         public override void Open()
         {
             base.Open();
             EventSystem.current.SetSelectedGameObject(null);
-            firsSelectable.Select();
+            firstSelectable.Select();
         }
     }
 }

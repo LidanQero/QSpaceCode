@@ -1,6 +1,6 @@
 ﻿namespace Master.QSpaceCode.PlayerUi.MainMenu
 {
-    public sealed class MainMenuShipEditor : SingleWindow
+    public class MainMenuRoomWindow : SingleWindow
     {
         
     }

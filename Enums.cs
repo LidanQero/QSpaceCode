@@ -2,7 +2,7 @@
 {
     public enum PunState
     {
-        ConnectedToMaster, ConnectedToLobby, ConnectedToRoom, Other
+        Login, ConnectedToLobby, ConnectedToRoom, Other
     }
 
     public enum MainMenuState

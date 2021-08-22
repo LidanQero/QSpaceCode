@@ -4,13 +4,13 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
 {
     public sealed class MainMenuUi : MonoBehaviour
     {
-        [SerializeField] private MainMenuTitle mainMenuTitle;
-        [SerializeField] private MainMenuSingleplayer mainMenuSingleplayer;
-        [SerializeField] private MainMenuMultiplayer mainMenuMultiplayer;
-        [SerializeField] private MainMenuShipEditor mainMenuShipEditor;
-        [SerializeField] private MainMenuGameSettings mainMenuGameSettings;
-        [SerializeField] private MainMenuGraphicSettings mainMenuGraphicSettings;
-        [SerializeField] private MainMenuExit mainMenuExit;
+        [SerializeField] private SingleWindow mainMenuTitle;
+        [SerializeField] private SingleWindow mainMenuSingleplayer;
+        [SerializeField] private SingleWindow mainMenuMultiplayer;
+        [SerializeField] private SingleWindow mainMenuShipEditor;
+        [SerializeField] private SingleWindow mainMenuGameSettings;
+        [SerializeField] private SingleWindow mainMenuGraphicSettings;
+        [SerializeField] private SingleWindow mainMenuExit;
 
         private void OnEnable()
         {

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Master.QSpaceCode.PlayerUi;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -38,7 +40,13 @@ namespace Master.QSpaceCode
 
     public interface IPunInfoKeeper
     {
+        event Action<string> UpdateLoginEvent; 
+        event Action<List<Player>> PlayersUpdateEvent;
+        event Action<List<RoomInfo>> RoomUpdateEvent;
         
+        string GetCurrentLogin();
+        public List<RoomInfo> GetRooms();
+        public List<Player> GetPlayers();
     }
 
     public interface IUiStateKeeper

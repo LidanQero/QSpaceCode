@@ -2,8 +2,8 @@
 
 namespace Master.QSpaceCode.Configs
 {
-    [CreateAssetMenu(fileName = "ScenesConfig", menuName = "GameConfigs/ScenesConfig", order = 0)]
-    public class ScenesConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "Scenes Config", menuName = "GameConfigs/Scenes Config", order = 0)]
+    public sealed class ScenesConfig : ScriptableObject
     {
         [SerializeField] private string menuSceneName;
         [SerializeField] private string gameSceneName;

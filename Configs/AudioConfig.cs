@@ -3,8 +3,8 @@ using UnityEngine.Audio;
 
 namespace Master.QSpaceCode.Configs
 {
-    [CreateAssetMenu(fileName = "AudioConfig", menuName = "GameConfigs/AudioConfig", order = 0)]
-    public class AudioConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "Audio Config", menuName = "GameConfigs/Audio Config", order = 0)]
+    public sealed class AudioConfig : ScriptableObject
     {
         [SerializeField] private AudioMixerGroup uiMixer;
         [SerializeField] private AudioMixerGroup musicMixer;
