@@ -42,9 +42,10 @@ namespace Master.QSpaceCode
     {
         event Action<string> UpdateLoginEvent; 
         event Action<List<Player>> PlayersUpdateEvent;
-        event Action<List<RoomInfo>> RoomUpdateEvent;
-        
+        event Action<List<RoomInfo>> RoomsUpdateEvent;
+
         string GetCurrentLogin();
+        string GetRoomName();
         public List<RoomInfo> GetRooms();
         public List<Player> GetPlayers();
     }

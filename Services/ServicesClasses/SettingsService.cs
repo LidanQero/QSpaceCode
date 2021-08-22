@@ -110,12 +110,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             var current = new Resolution
             {
                 height = Screen.height,
-                width = Screen.width,
-                refreshRate = Screen.currentResolution.refreshRate
+                width = Screen.width
             };
             for (int i = 0; i < resolutions.Length; i++)
             {
-                if (resolutions[i].Equals(current)) return i;
+                if (resolutions[i].height == current.height &&
+                    resolutions[i].width == current.width) return i;
             }
 
             return 0;

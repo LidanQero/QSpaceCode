@@ -24,14 +24,14 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         protected override void OnEnable()
         {
             base.OnEnable();
-            Core.PunInfoKeeper.RoomUpdateEvent += UpdateRoomsButtons;
+            Core.PunInfoKeeper.RoomsUpdateEvent += UpdateRoomsButtons;
             UpdateRoomsButtons(Core.PunInfoKeeper.GetRooms());
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Core.PunInfoKeeper.RoomUpdateEvent -= UpdateRoomsButtons;
+            Core.PunInfoKeeper.RoomsUpdateEvent -= UpdateRoomsButtons;
         }
 
         private void UpdateRoomsButtons(List<RoomInfo> rooms)
@@ -40,6 +40,7 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
             foreach (var room in rooms)
             {
                 var newButton = Instantiate(Core.UiConfig.RoomButton, roomButtonsParent, true);
+                newButton.transform.localScale = Vector3.one;
                 newButton.SetRoomName(room.Name, room.PlayerCount, room.MaxPlayers);
                 roomButtons.Add(newButton);
             }
@@ -49,7 +50,7 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         {
             while (roomButtons.Count > 0)
             {
-                Destroy(roomButtons[0]);
+                Destroy(roomButtons[0].gameObject);
                 roomButtons.RemoveAt(0);
             }
         }

@@ -6,6 +6,7 @@ using Master.QSpaceCode.PlayerUi.Sliders;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
@@ -35,10 +36,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 {
                     if (EventSystem.current.currentSelectedGameObject
                         .GetComponent<UiDropdownOption>()) return;
-                    if (EventSystem.current.currentSelectedGameObject
-                        .GetComponent<TMP_InputField>() && 
-                        EventSystem.current.currentSelectedGameObject
-                            .GetComponent<TMP_InputField>().isFocused) return;
                 }
 
                 InputCancelEvent?.Invoke();
@@ -129,6 +126,14 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     createRoomButton.ButtonPressedEvent +=
                         servicesMediator.CreateWantedRoom;
                     break;
+                case MainMenuStartMultiplayerGameButton mainMenuStartMultiplayerGameButton:
+                    mainMenuStartMultiplayerGameButton.ButtonPressedEvent +=
+                        servicesMediator.StartMultiplayerGame;
+                    break;
+                case MainMenuExitFromRoomButton mainMenuExitFromRoomButton:
+                    mainMenuExitFromRoomButton.ButtonPressedEvent +=
+                        servicesMediator.ExitFromRoom;
+                    break;
             }
         }
 
@@ -194,6 +199,14 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case MainMenuCreateRoomButton createRoomButton:
                     createRoomButton.ButtonPressedEvent -=
                         servicesMediator.CreateWantedRoom;
+                    break;
+                case MainMenuStartMultiplayerGameButton mainMenuStartMultiplayerGameButton:
+                    mainMenuStartMultiplayerGameButton.ButtonPressedEvent -=
+                        servicesMediator.StartMultiplayerGame;
+                    break;
+                case MainMenuExitFromRoomButton mainMenuExitFromRoomButton:
+                    mainMenuExitFromRoomButton.ButtonPressedEvent -=
+                        servicesMediator.ExitFromRoom;
                     break;
             }
         }
@@ -278,6 +291,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case PlayersCountDropdown playersCountDropdown:
                     playersCountDropdown.DropdownChangedValueEvent +=
                         SetPlayersCountForRoom;
+                    SetPlayersCountForRoom(playersCountDropdown.GetValue());
                     break;
             }
         }

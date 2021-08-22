@@ -19,7 +19,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public event Action<string> UpdateLoginEvent;
         public event Action<List<Player>> PlayersUpdateEvent;
-        public event Action<List<RoomInfo>> RoomUpdateEvent;
+        public event Action<List<RoomInfo>> RoomsUpdateEvent;
 
         private PunCallbacksSender punCallbacksSender;
 
@@ -48,7 +48,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             };
             punCallbacksSender.RoomUpdateEvent += delegate(List<RoomInfo> list)
             {
-                RoomUpdateEvent?.Invoke(list);
+                RoomsUpdateEvent?.Invoke(list);
             };
 
             ChangePunState(PunState.Login);
@@ -57,7 +57,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         }
 
         public string GetCurrentLogin() => currentLogin;
-
+        public string GetRoomName()
+        {
+            if (punCallbacksSender) return punCallbacksSender.GetRoomName();
+            return string.Empty;
+        }
+        
         public void GenerateNewLogin()
         {
             currentLogin = CreateRandomLogin();
@@ -83,6 +88,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             punCallbacksSender.Disconnect();
         }
+
+        public void StartMultiplayerGame() => punCallbacksSender.StartMultiplayerGame();
+        public void ExitFromRoom() => punCallbacksSender.ExitFromRoom();
 
         public List<RoomInfo> GetRooms()
         {

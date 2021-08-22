@@ -1,4 +1,5 @@
-﻿using Master.QSpaceCode.PlayerUi.Buttons;
+﻿using Master.QSpaceCode.PlayerUi;
+using Master.QSpaceCode.PlayerUi.Buttons;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Configs
@@ -7,7 +8,9 @@ namespace Master.QSpaceCode.Configs
     public sealed class UiConfig : ScriptableObject
     {
         [SerializeField] private RoomButton roomButton;
+        [SerializeField] private PlayerImage playerImage;
 
         public RoomButton RoomButton => roomButton;
+        public PlayerImage PlayerImage => playerImage;
     }
 }

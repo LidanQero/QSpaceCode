@@ -36,5 +36,15 @@
         {
             punService.Disconnect();
         }
+
+        public void StartMultiplayerGame()
+        {
+            punService.StartMultiplayerGame();
+        }
+
+        public void ExitFromRoom()
+        {
+            punService.ExitFromRoom();
+        }
     }
 }

@@ -5,6 +5,7 @@ using ExitGames.Client.Photon;
 using Master.QSpaceCode.Services.Mediator;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasses
 {
@@ -139,6 +140,11 @@ namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasse
 
         public List<RoomInfo> GetRooms() => rooms;
         public List<Player> GetPlayers() => players;
+        public string GetRoomName()
+        {
+            if (PhotonNetwork.InRoom) return PhotonNetwork.CurrentRoom.Name;
+            return string.Empty;
+        }
 
         public void CreateWantedRoom()
         {
@@ -156,13 +162,26 @@ namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasse
         {
             PhotonNetwork.Disconnect();
         }
+
+        public void ExitFromRoom()
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            PhotonNetwork.LeaveRoom();
+        }
+
+        public void StartMultiplayerGame()
+        {
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
+            Debug.Log("!Старт игры!");
+        }
         
         public void SetWantedRoomPlayersCount(int count) => wantMaxPlayersInRoom = count;
 
         private void UpdateRoomCash(List<RoomInfo> roomList)
         {
             rooms.Clear();
-            rooms.AddRange(from room in roomList where room.IsOpen && room.IsVisible select room);
+            rooms.AddRange(from room in roomList
+                where room.IsOpen && room.IsVisible && room.MaxPlayers > 0 select room);
             RoomUpdateEvent?.Invoke(rooms);
         }
 

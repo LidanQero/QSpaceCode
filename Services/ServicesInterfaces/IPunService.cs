@@ -8,5 +8,7 @@
         void SetWantedRoomPlayersCount(int count);
         void ConnectToRoom(string roomName);
         void Disconnect();
+        void StartMultiplayerGame();
+        void ExitFromRoom();
     }
 }

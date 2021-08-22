@@ -65,5 +65,10 @@ namespace Master.QSpaceCode.PlayerUi
 
             dropdown.AddOptions(optionDataList);
         }
+
+        public int GetValue()
+        {
+            return dropdown.value;
+        }
     }
 }
