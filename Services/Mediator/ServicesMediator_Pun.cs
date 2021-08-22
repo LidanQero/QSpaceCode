@@ -1,4 +1,7 @@
-﻿namespace Master.QSpaceCode.Services.Mediator
+﻿using ExitGames.Client.Photon;
+using Photon.Realtime;
+
+namespace Master.QSpaceCode.Services.Mediator
 {
     public sealed partial class ServicesMediator
     {
@@ -39,12 +42,28 @@
 
         public void StartMultiplayerGame()
         {
-            punService.StartMultiplayerGame();
+            scenesService.LoadGameScene();
+        }
+
+        public void StartSingleplayerGame()
+        {
+            punService.Disconnect();
+            scenesService.LoadGameScene();
         }
 
         public void ExitFromRoom()
         {
             punService.ExitFromRoom();
+        }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            scenesService.TestLoadingScenesForPun(targetPlayer, changedProps);
+        }
+        
+        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            
         }
     }
 }

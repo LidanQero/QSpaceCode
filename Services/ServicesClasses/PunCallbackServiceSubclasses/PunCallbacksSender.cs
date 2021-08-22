@@ -125,11 +125,13 @@ namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasse
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
             base.OnRoomPropertiesUpdate(propertiesThatChanged);
+            servicesMediator.OnRoomPropertiesUpdate(propertiesThatChanged);
         }
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
             base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+            servicesMediator.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
@@ -163,18 +165,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasse
             PhotonNetwork.Disconnect();
         }
 
-        public void ExitFromRoom()
-        {
-            servicesMediator.UpdatePunState(PunState.Other);
-            PhotonNetwork.LeaveRoom();
-        }
-
-        public void StartMultiplayerGame()
-        {
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient) return;
-            Debug.Log("!Старт игры!");
-        }
-        
         public void SetWantedRoomPlayersCount(int count) => wantMaxPlayersInRoom = count;
 
         private void UpdateRoomCash(List<RoomInfo> roomList)

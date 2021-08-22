@@ -89,8 +89,23 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             punCallbacksSender.Disconnect();
         }
 
-        public void StartMultiplayerGame() => punCallbacksSender.StartMultiplayerGame();
-        public void ExitFromRoom() => punCallbacksSender.ExitFromRoom();
+        public void ExitFromRoom()
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            PhotonNetwork.LeaveRoom();
+        }
+
+        public void CheckPunForGame()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.OfflineMode = true;
+            }
+            if (!PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.CreateRoom("Offline room");
+            }
+        }
 
         public List<RoomInfo> GetRooms()
         {

@@ -6,5 +6,15 @@
         {
             uiService.OpenMainMenuTitle();
         }
+        
+        public void FinishLoadingLoadingScene()
+        {
+            
+        }
+        
+        public void FinishLoadingGameScene()
+        {
+            
+        }
     }
 }

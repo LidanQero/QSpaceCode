@@ -5,8 +5,6 @@ using Master.QSpaceCode.PlayerUi.Dropdowns;
 using Master.QSpaceCode.PlayerUi.Sliders;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
-using TMPro;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
@@ -134,6 +132,10 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     mainMenuExitFromRoomButton.ButtonPressedEvent +=
                         servicesMediator.ExitFromRoom;
                     break;
+                case MainMenuStartSingleplayerButton mainMenuStartSingleplayerButton:
+                    mainMenuStartSingleplayerButton.ButtonPressedEvent +=
+                        servicesMediator.StartSingleplayerGame;
+                    break;
             }
         }
 
@@ -207,6 +209,10 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case MainMenuExitFromRoomButton mainMenuExitFromRoomButton:
                     mainMenuExitFromRoomButton.ButtonPressedEvent -=
                         servicesMediator.ExitFromRoom;
+                    break;
+                case MainMenuStartSingleplayerButton mainMenuStartSingleplayerButton:
+                    mainMenuStartSingleplayerButton.ButtonPressedEvent -=
+                        servicesMediator.StartSingleplayerGame;
                     break;
             }
         }

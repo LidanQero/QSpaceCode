@@ -212,7 +212,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void SetAliasingId(int id)
         {
-            postProcessLayer.subpixelMorphologicalAntialiasing.quality =
+            if (postProcessLayer) postProcessLayer.subpixelMorphologicalAntialiasing.quality =
                 (SubpixelMorphologicalAntialiasing.Quality) id;
         }
 
