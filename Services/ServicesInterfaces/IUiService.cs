@@ -7,6 +7,9 @@ namespace Master.QSpaceCode.Services.ServicesInterfaces
         void CloseCurrentUiArea();
         void UpdatePunState(PunState punState);
         void OpenMainMenuTitle();
+        void OpenGameMain();
+        void OpenGamePause();
+        void OpenGameDisconnect();
         void OpenMainMenuSingleplayer();
         void OpenMainMenuMultiplayer();
         void OpenMainMenuRoomSettings();

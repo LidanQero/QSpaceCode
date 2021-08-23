@@ -12,6 +12,7 @@ namespace Master.QSpaceCode.PlayerUi
         public event Action ButtonPressedEvent;
         
         private Button button;
+        private float enabledTime;
 
         protected virtual void Awake()
         {
@@ -26,6 +27,7 @@ namespace Master.QSpaceCode.PlayerUi
         protected virtual void OnEnable()
         {
             Core.UiInputKeeper.AddButton(this);
+            enabledTime = Time.time;
         }
 
         protected virtual void OnDisable()
@@ -35,10 +37,11 @@ namespace Master.QSpaceCode.PlayerUi
 
         protected void PressButton()
         {
+            if (enabledTime + 0.1f > Time.time) return;
             button.OnSubmit(null);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public virtual void OnPointerEnter(PointerEventData eventData)
         {
             if (!selectWhenEnterCursor) return;
             if (button.navigation.mode == Navigation.Mode.None) return;

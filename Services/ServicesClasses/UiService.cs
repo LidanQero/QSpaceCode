@@ -14,14 +14,18 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public event Action<MainMenuState> ChangeMainMenuStateEvent;
         public event Action<MultiplayerMenuState> ChangeMultiplayerMenuStateEvent;
+        public event Action<GameMenuState> ChangeGameMenuStateEvent;
+        public bool HasWindowsStack => closeWindowsActions.Count > 0;
 
         private MainMenuState mainMenuState;
         private MultiplayerMenuState multiplayerMenuState;
+        private GameMenuState gameMenuState;
 
         private readonly Stack<Action> closeWindowsActions = new Stack<Action>();
 
         public MainMenuState GetMainMenuState() => mainMenuState;
         public MultiplayerMenuState GetMultiplayerMenuState() => multiplayerMenuState;
+        public GameMenuState GetGameMenuState() => gameMenuState;
 
         public void UpdatePunState(PunState punState)
         {
@@ -51,6 +55,31 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             closeWindowsActions.Clear();
             SetMainMenuState(MainMenuState.Title);
+        }
+
+        public void OpenGameMain()
+        {
+            closeWindowsActions.Clear();
+            SetGameMenuState(GameMenuState.Main);
+        }
+
+        public void OpenGamePause()
+        {
+            Debug.Log("Ставлю игру на паузу");
+            var oldGameMenuState = (GameMenuState) (int) gameMenuState;
+            closeWindowsActions.Push(delegate
+            {
+                SetGameMenuState(oldGameMenuState);
+                Debug.Log("Снимаю игру с паузы.");
+            });
+            SetGameMenuState(GameMenuState.Pause);
+        }
+
+        public void OpenGameDisconnect()
+        {
+            var oldGameMenuState = (GameMenuState) (int) gameMenuState;
+            closeWindowsActions.Push(delegate { SetGameMenuState(oldGameMenuState);});
+            SetGameMenuState(GameMenuState.Disconnect);
         }
 
         public void OpenMainMenuSingleplayer()
@@ -86,31 +115,43 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void OpenMainMenuGameSettings()
         {
-            var newState = (MainMenuState) (int) mainMenuState;
+            var oldMainMenuState = (MainMenuState) (int) mainMenuState;
+            var oldGameMenuState = (GameMenuState) (int) gameMenuState;
             closeWindowsActions.Push(delegate
             {
                 servicesMediator.SavePlayerSettings();
-                SetMainMenuState(newState);
+                SetMainMenuState(oldMainMenuState);
+                SetGameMenuState(oldGameMenuState);
             });
             SetMainMenuState(MainMenuState.GameSettings);
+            SetGameMenuState(GameMenuState.GameSettings);
         }
 
         public void OpenMainMenuGraphicSettings()
         {
-            var newState = (MainMenuState) (int) mainMenuState;
+            var oldMainMenuState = (MainMenuState) (int) mainMenuState;
+            var oldGameMenuState = (GameMenuState) (int) gameMenuState;
             closeWindowsActions.Push(delegate
             {
                 servicesMediator.SavePlayerSettings();
-                SetMainMenuState(newState);
+                SetMainMenuState(oldMainMenuState);
+                SetGameMenuState(oldGameMenuState);
             });
             SetMainMenuState(MainMenuState.GraphicSettings);
+            SetGameMenuState(GameMenuState.GraphicSettings);
         }
 
         public void OpenMainMenuExit()
         {
-            var newState = (MainMenuState) (int) mainMenuState;
-            closeWindowsActions.Push(delegate { SetMainMenuState(newState); });
+            var oldMainMenuState = (MainMenuState) (int) mainMenuState;
+            var oldGameMenuState = (GameMenuState) (int) gameMenuState;
+            closeWindowsActions.Push(delegate
+            {
+                SetMainMenuState(oldMainMenuState);
+                SetGameMenuState(oldGameMenuState);
+            });
             SetMainMenuState(MainMenuState.Exit);
+            SetGameMenuState(GameMenuState.Exit);
         }
 
         private void SetMainMenuState(MainMenuState newState)
@@ -123,6 +164,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             multiplayerMenuState = newState;
             ChangeMultiplayerMenuStateEvent?.Invoke(newState);
+        }
+
+        private void SetGameMenuState(GameMenuState newState)
+        {
+            gameMenuState = newState;
+            ChangeGameMenuStateEvent?.Invoke(newState);
         }
     }
 }

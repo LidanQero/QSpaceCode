@@ -14,7 +14,7 @@
         
         public void FinishLoadingGameScene()
         {
-            
+            uiService.OpenGameMain();
         }
     }
 }

@@ -79,7 +79,8 @@ namespace Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasse
         public override void OnDisconnected(DisconnectCause cause)
         {
             base.OnDisconnected(cause);
-            if (cause == DisconnectCause.DisconnectByClientLogic)
+            if (cause == DisconnectCause.DisconnectByClientLogic ||
+                cause == DisconnectCause.None)
             {
                 servicesMediator.UpdatePunState(PunState.Login);
             }

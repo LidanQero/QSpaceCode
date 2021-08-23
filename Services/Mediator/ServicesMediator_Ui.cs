@@ -7,11 +7,6 @@
             uiService.CloseCurrentUiArea();
         }
 
-        public void OpenMainMenuTitles()
-        {
-            uiService.OpenMainMenuTitle();
-        }
-
         public void OpenMainMenuSingleplayer()
         {
             uiService.OpenMainMenuSingleplayer();
@@ -50,6 +45,16 @@
         public void OpenMainMenuExit()
         {
             uiService.OpenMainMenuExit();
+        }
+
+        public void OpenDisconnectWindow()
+        {
+            uiService.OpenGameDisconnect();
+        }
+
+        public void OpenPauseWindow()
+        {
+            uiService.OpenGamePause();
         }
     }
 }

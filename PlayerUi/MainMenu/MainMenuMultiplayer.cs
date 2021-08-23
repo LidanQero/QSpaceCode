@@ -26,24 +26,34 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         private void UpdateMultiplayerState(MultiplayerMenuState newMultiplayerMenuState)
         {
             CloseAllWindows();
-            
+
             switch (newMultiplayerMenuState)
             {
-                case MultiplayerMenuState.Connection: connectingWindow.Open(); break;
-                case MultiplayerMenuState.Lobby: lobbyWindow.Open(); break;
-                case MultiplayerMenuState.Login: loginWindow.Open(); break;
-                case MultiplayerMenuState.Room: roomWindow.Open(); break;
-                case MultiplayerMenuState.RoomSettings: roomSettingsWindow.Open(); break;
+                case MultiplayerMenuState.Connection:
+                    if (connectingWindow) connectingWindow.Open();
+                    break;
+                case MultiplayerMenuState.Lobby:
+                    if (lobbyWindow) lobbyWindow.Open();
+                    break;
+                case MultiplayerMenuState.Login:
+                    if (loginWindow) loginWindow.Open();
+                    break;
+                case MultiplayerMenuState.Room:
+                    if (roomWindow) roomWindow.Open();
+                    break;
+                case MultiplayerMenuState.RoomSettings:
+                    if (roomSettingsWindow) roomSettingsWindow.Open();
+                    break;
             }
         }
 
         private void CloseAllWindows()
         {
-            connectingWindow.Close();
-            lobbyWindow.Close();
-            loginWindow.Close();
-            roomSettingsWindow.Close();
-            roomWindow.Close();
+            if (connectingWindow) connectingWindow.Close();
+            if (lobbyWindow) lobbyWindow.Close();
+            if (loginWindow) loginWindow.Close();
+            if (roomSettingsWindow) roomSettingsWindow.Close();
+            if (roomWindow) roomWindow.Close();
         }
     }
 }

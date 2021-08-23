@@ -5,6 +5,7 @@ using Master.QSpaceCode.PlayerUi.Dropdowns;
 using Master.QSpaceCode.PlayerUi.Sliders;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
@@ -17,6 +18,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public event Action<SystemInputMap> ChangeSystemInputMapEvent;
         public event Action InputCancelEvent;
+        public event Action InputPauseEvent;
 
         private SystemInputMap currentSystemInputMap;
         private DefaultInputActions defaultInputActions;
@@ -32,11 +34,20 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             {
                 if (EventSystem.current)
                 {
-                    if (EventSystem.current.currentSelectedGameObject
-                        .GetComponent<UiDropdownOption>()) return;
+                    if (EventSystem.current.currentSelectedGameObject)
+                    {
+                        if (EventSystem.current.currentSelectedGameObject
+                            .GetComponent<UiDropdownOption>()) return;
+                    }
                 }
 
                 InputCancelEvent?.Invoke();
+            };
+            
+            defaultInputActions.UI.Menu.performed += delegate
+            {
+                if (Core.UiStateKeeper.GetGameMenuState() != GameMenuState.Main) return;
+                InputPauseEvent?.Invoke();
             };
 
             defaultInputActions.SystemMap.MouseActive.performed += delegate
@@ -118,7 +129,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     break;
                 case MainMenuDisconnectButton menuDisconnectButton:
                     menuDisconnectButton.ButtonPressedEvent +=
-                        servicesMediator.Disconnect;
+                        servicesMediator.DisconnectFromLobby;
                     break;
                 case MainMenuCreateRoomButton createRoomButton:
                     createRoomButton.ButtonPressedEvent +=
@@ -135,6 +146,18 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case MainMenuStartSingleplayerButton mainMenuStartSingleplayerButton:
                     mainMenuStartSingleplayerButton.ButtonPressedEvent +=
                         servicesMediator.StartSingleplayerGame;
+                    break;
+                case GameOpenDisconnectWindowButton openDisconnectWindowButton:
+                    openDisconnectWindowButton.ButtonPressedEvent +=
+                        servicesMediator.OpenDisconnectWindow;
+                    break;
+                case GameDisconnectButton disconnectButton:
+                    disconnectButton.ButtonPressedEvent +=
+                        servicesMediator.DisconnectFromGame;
+                    break;
+                case GamePauseButton pauseButton:
+                    pauseButton.ButtonPressedEvent +=
+                        servicesMediator.OpenPauseWindow;
                     break;
             }
         }
@@ -196,7 +219,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     break;
                 case MainMenuDisconnectButton menuDisconnectButton:
                     menuDisconnectButton.ButtonPressedEvent -=
-                        servicesMediator.Disconnect;
+                        servicesMediator.DisconnectFromLobby;
                     break;
                 case MainMenuCreateRoomButton createRoomButton:
                     createRoomButton.ButtonPressedEvent -=
@@ -213,6 +236,18 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 case MainMenuStartSingleplayerButton mainMenuStartSingleplayerButton:
                     mainMenuStartSingleplayerButton.ButtonPressedEvent -=
                         servicesMediator.StartSingleplayerGame;
+                    break;
+                case GameOpenDisconnectWindowButton openDisconnectWindowButton:
+                    openDisconnectWindowButton.ButtonPressedEvent -=
+                        servicesMediator.OpenDisconnectWindow;
+                    break;
+                case GameDisconnectButton disconnectButton:
+                    disconnectButton.ButtonPressedEvent -=
+                        servicesMediator.DisconnectFromGame;
+                    break;
+                case GamePauseButton pauseButton:
+                    pauseButton.ButtonPressedEvent -=
+                        servicesMediator.OpenPauseWindow;
                     break;
             }
         }

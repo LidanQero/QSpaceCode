@@ -57,6 +57,11 @@ namespace Master.QSpaceCode
 
         MultiplayerMenuState GetMultiplayerMenuState();
         event Action<MultiplayerMenuState> ChangeMultiplayerMenuStateEvent;
+
+        GameMenuState GetGameMenuState();
+        event Action<GameMenuState> ChangeGameMenuStateEvent;
+        
+        bool HasWindowsStack { get; }
     }
 
     public interface IUiInputKeeper
@@ -65,6 +70,7 @@ namespace Master.QSpaceCode
         event Action<SystemInputMap> ChangeSystemInputMapEvent; 
         
         event Action InputCancelEvent;
+        event Action InputPauseEvent;
 
         void AddButton(UiButton uiButton);
         void RemoveButton(UiButton uiButton);

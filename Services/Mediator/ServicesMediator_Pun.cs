@@ -1,5 +1,6 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Realtime;
+using UnityEngine;
 
 namespace Master.QSpaceCode.Services.Mediator
 {
@@ -35,7 +36,7 @@ namespace Master.QSpaceCode.Services.Mediator
             punService.ConnectToRoom(roomName);
         }
 
-        public void Disconnect()
+        public void DisconnectFromLobby()
         {
             punService.Disconnect();
         }
@@ -49,6 +50,12 @@ namespace Master.QSpaceCode.Services.Mediator
         {
             punService.Disconnect();
             scenesService.LoadGameScene();
+        }
+        
+        public void DisconnectFromGame()
+        {
+            punService.Disconnect();
+            scenesService.LoadMenuScene();
         }
 
         public void ExitFromRoom()

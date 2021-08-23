@@ -26,16 +26,30 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         private void UpdateMainMenuState(MainMenuState mainMenuState)
         {
             CloseAllWindows();
-            
+
             switch (mainMenuState)
             {
-                case MainMenuState.Title: mainMenuTitle.Open(); break;
-                case MainMenuState.Singleplayer: mainMenuSingleplayer.Open(); break;
-                case MainMenuState.Multiplayer: mainMenuMultiplayer.Open(); break;
-                case MainMenuState.ShipEditor: mainMenuShipEditor.Open(); break;
-                case MainMenuState.GameSettings: mainMenuGameSettings.Open(); break;
-                case MainMenuState.GraphicSettings: mainMenuGraphicSettings.Open(); break;
-                case MainMenuState.Exit: mainMenuExit.Open(); break;
+                case MainMenuState.Title:
+                    mainMenuTitle.Open();
+                    break;
+                case MainMenuState.Singleplayer:
+                    mainMenuSingleplayer.Open();
+                    break;
+                case MainMenuState.Multiplayer:
+                    mainMenuMultiplayer.Open();
+                    break;
+                case MainMenuState.ShipEditor:
+                    mainMenuShipEditor.Open();
+                    break;
+                case MainMenuState.GameSettings:
+                    mainMenuGameSettings.Open();
+                    break;
+                case MainMenuState.GraphicSettings:
+                    mainMenuGraphicSettings.Open();
+                    break;
+                case MainMenuState.Exit:
+                    mainMenuExit.Open();
+                    break;
             }
             
             Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.WindowOpened);
