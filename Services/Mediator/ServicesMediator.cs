@@ -56,11 +56,19 @@ namespace Master.QSpaceCode.Services.Mediator
 
         private readonly Service[] services;
 
-        public void Init()
+        public void InitOnAwake()
         {
             foreach (var service in services)
             {
-                service.Init();
+                service.InitOnAwake();
+            }
+        }
+        
+        public void InitOnStart()
+        {
+            foreach (var service in services)
+            {
+                service.InitOnStart();
             }
         }
 

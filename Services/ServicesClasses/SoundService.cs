@@ -13,9 +13,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private AudioSource uiAudioSource;
         private AudioSource musicAudioSource;
 
-        public override void Init()
+        public override void InitOnAwake()
         {
-            base.Init();
+            base.InitOnAwake();
 
             uiAudioSource = new GameObject("UI Audio Source").AddComponent<AudioSource>();
             Object.DontDestroyOnLoad(uiAudioSource.gameObject);

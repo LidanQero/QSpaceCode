@@ -1,4 +1,5 @@
 ﻿using Master.QSpaceCode.Game;
+using Master.QSpaceCode.Game.Player;
 using Photon.Pun;
 using UnityEngine;
 
@@ -6,25 +7,16 @@ namespace Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses
 {
     public class PunObjectsManager
     {
-        private PlayerShip playerShipCash;
-
-        public void MovePlayer(float speed)
-        {
-            if (playerShipCash) 
-                playerShipCash.TransformCash.Translate(Vector3.forward * speed);
-        }
-
-        public void DestroyPlayer()
-        {
-            if (playerShipCash) PhotonNetwork.Destroy(playerShipCash.gameObject);
-        }
+        public ShipRoot PlayerShip { get; private set; }
 
         public void RegisterPunObject(PunObject punObject)
         {
             switch (punObject)
             {
-                case PlayerShip playerShip:
-                    if (playerShip.IsMine) playerShipCash = playerShip;
+                case ShipRoot {IsMine: true} playerShip:
+                    PlayerShip = playerShip;
+                    playerShip.RPC(nameof(playerShip.LoadConfig), RpcTarget.All,
+                        Core.ShipsConfig.GetDefaultShipConfig());
                     break;
             }
         }

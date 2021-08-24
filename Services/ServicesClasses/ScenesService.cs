@@ -18,9 +18,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private string targetScene = "";
 
-        public override void Init()
+        public override void InitOnAwake()
         {
-            base.Init();
+            base.InitOnAwake();
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 

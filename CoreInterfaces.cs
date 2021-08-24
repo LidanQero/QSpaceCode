@@ -68,10 +68,15 @@ namespace Master.QSpaceCode
     public interface IUiInputKeeper
     {
         SystemInputMap GetSystemInputMap();
+        
         event Action<SystemInputMap> ChangeSystemInputMapEvent; 
         
         event Action InputCancelEvent;
         event Action InputPauseEvent;
+        
+        Vector2 MoveVector { get; }
+        event Action RotateShipRightEvent;
+        event Action RotateShipLeftEvent;
 
         void AddButton(UiButton uiButton);
         void RemoveButton(UiButton uiButton);

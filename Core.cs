@@ -1,4 +1,5 @@
-﻿using Master.QSpaceCode.Configs;
+﻿using System;
+using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Master.QSpaceCode
         [SerializeField] private UiConfig uiConfig;
         [SerializeField] private GameplayConfig gameplayConfig;
         [SerializeField] private LevelsConfig levelsConfig;
+        [SerializeField] private ShipsConfig shipsConfig;
 
         public static ScenesConfig ScenesConfig =>
             singleton ? singleton.scenesConfig : FindObjectOfType<Core>().scenesConfig;
@@ -26,6 +28,9 @@ namespace Master.QSpaceCode
 
         public static LevelsConfig LevelsConfig =>
             singleton ? singleton.levelsConfig : FindObjectOfType<Core>().levelsConfig;
+
+        public static ShipsConfig ShipsConfig =>
+            singleton ? singleton.shipsConfig : FindObjectOfType<Core>().shipsConfig;
 
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
@@ -54,7 +59,12 @@ namespace Master.QSpaceCode
                 return;
             }
             
-            ServicesMediator.Init();
+            ServicesMediator.InitOnAwake();
+        }
+
+        private void Start()
+        {
+            ServicesMediator.InitOnStart();
         }
 
         private void Update()

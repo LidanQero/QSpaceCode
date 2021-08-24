@@ -16,12 +16,12 @@ namespace Master.QSpaceCode.Game
             TransformCash = GetComponent<Transform>();
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             Core.ViewersKeeper.RegisterPunObject(this);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             Core.ViewersKeeper.DeletePunObject(this);
         }

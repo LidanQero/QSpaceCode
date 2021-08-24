@@ -24,4 +24,9 @@
     {
         Keyboard, Xbox, PS
     }
+
+    public enum WeaponType
+    {
+        Cannon, Turret, Ability, None
+    }
 }

@@ -11,7 +11,12 @@ namespace Master.QSpaceCode.Services
 
         protected readonly ServicesMediator servicesMediator;
         
-        public virtual void Init()
+        public virtual void InitOnAwake()
+        {
+            
+        }
+
+        public virtual void InitOnStart()
         {
             
         }

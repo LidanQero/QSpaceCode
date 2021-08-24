@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DG.Tweening;
 using Master.QSpaceCode.Game;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses;
@@ -26,7 +27,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             ClientPrepare();
             MasterPrepare();
         }
-        
+
         public void StartGame()
         {
             gameIsStart = true;
@@ -36,8 +37,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             gameIsStart = false;
             gameTime = 0;
-            levelManager.ClearChunks();
-            punObjectsManager.DestroyPlayer();
         }
 
         public override void Runtime()
@@ -50,22 +49,24 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void RegisterPunObject(PunObject punObject)
         {
-            if (punObject is Chunk chunk) levelManager.RegisterChunk(chunk);
-            else punObjectsManager.RegisterPunObject(punObject);
+            punObjectsManager.RegisterPunObject(punObject);
         }
 
         public void DeletePunObject(PunObject punObject)
         {
-            if (punObject is Chunk chunk) levelManager.DeleteChunk(chunk);
-            else punObjectsManager.DeletePunObject(punObject);
+            punObjectsManager.DeletePunObject(punObject);
         }
 
-        public void RegisterLocalObject(LocalObject localObject) =>
+        public void RegisterLocalObject(LocalObject localObject)
+        {
             localObjectsManager.RegisterLocalObject(localObject);
+        }
 
-        public void DeleteLocalObject(LocalObject localObject) =>
+        public void DeleteLocalObject(LocalObject localObject)
+        {
             localObjectsManager.DeleteLocalObject(localObject);
-        
+        }
+
         private void ClientPrepare()
         {
             camera = Camera.main.transform;
@@ -75,28 +76,25 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void MasterPrepare()
         {
             if (!PhotonNetwork.IsMasterClient) return;
-            levelManager.SpawnStartChunk();
         }
-        
+
         private void ClientRuntime()
         {
             gameTime += Time.deltaTime;
-            var speed = Core.GameplayConfig.GlobalMoveSpeed * Time.deltaTime;
-            punObjectsManager.MovePlayer(speed);
-            camera.position += Vector3.forward * speed;
+            punObjectsManager.PlayerShip.Move(Core.UiInputKeeper.MoveVector);
+            UpdateCameraPosition();
         }
 
         private void MasterRuntime()
         {
             if (!PhotonNetwork.IsMasterClient) return;
-            levelManager.ManageChunks(gameTime);
         }
-        
+
         private void SpawnPlayer()
         {
             var players = PhotonNetwork.PlayerList.ToArray();
             var playerShip = Core.GameplayConfig.PlayerShip;
-            var spawnPos = Core.GameplayConfig.PlayerSpawnPosition;
+            var spawnPos = Vector3.back * 150;
 
             var playerNumber = 0;
 
@@ -109,23 +107,38 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
             if (players.Length == 2)
             {
-                if (playerNumber == 0) spawnPos += Vector3.right * 2;
-                else spawnPos += Vector3.left * 2;
+                if (playerNumber == 0) spawnPos += Vector3.right * 20;
+                else spawnPos += Vector3.left * 20;
             }
             else if (players.Length == 3)
             {
-                if (playerNumber == 1) spawnPos += Vector3.right * 4;
-                else if (playerNumber == 2) spawnPos += Vector3.left * 4;
+                if (playerNumber == 1) spawnPos += Vector3.right * 40;
+                else if (playerNumber == 2) spawnPos += Vector3.left * 40;
             }
             else if (players.Length == 4)
             {
-                if (playerNumber == 0) spawnPos += Vector3.right * 2;
-                else if (playerNumber == 1) spawnPos += Vector3.right * 6;
-                else if (playerNumber == 2) spawnPos += Vector3.left * 2;
-                else if (playerNumber == 3) spawnPos += Vector3.left * 6;
+                if (playerNumber == 0) spawnPos += Vector3.right * 20;
+                else if (playerNumber == 1) spawnPos += Vector3.right * 60;
+                else if (playerNumber == 2) spawnPos += Vector3.left * 20;
+                else if (playerNumber == 3) spawnPos += Vector3.left * 60;
             }
 
             PhotonNetwork.Instantiate(playerShip.name, spawnPos, Quaternion.identity);
+        }
+
+        private void UpdateCameraPosition()
+        {
+            var shipPosition = punObjectsManager.PlayerShip.TransformCash.position;
+            var offset = punObjectsManager.PlayerShip.TransformCash.forward * 50;
+            var targetPosition = shipPosition + Vector3.up * 20 + offset;
+            var max = Core.GameplayConfig.MaxCameraRangeFromCenter;
+            if (targetPosition.sqrMagnitude > max * max)
+                targetPosition = targetPosition.normalized * max;
+            //var angle = Vector3.SignedAngle(Vector3.forward, shipPosition, Vector3.up);
+            var targetRotation = Quaternion.Euler(90, punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
+            camera.DOKill();
+            camera.DOMove(targetPosition, 0.5f);
+            camera.DORotateQuaternion(targetRotation, 0.5f);
         }
     }
 }

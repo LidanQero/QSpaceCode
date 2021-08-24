@@ -7,6 +7,7 @@ using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -15,6 +16,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public InputService(ServicesMediator newServicesMediator) : base(newServicesMediator)
         {
         }
+        
+        public SystemInputMap GetSystemInputMap() => currentSystemInputMap;
+
+        public Vector2 MoveVector { get; private set; }
+        public event Action RotateShipRightEvent;
+        public event Action RotateShipLeftEvent;
 
         public event Action<SystemInputMap> ChangeSystemInputMapEvent;
         public event Action InputCancelEvent;
@@ -22,10 +29,11 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private SystemInputMap currentSystemInputMap;
         private DefaultInputActions defaultInputActions;
+        private GameInputActions gameInputActions;
 
-        public override void Init()
+        public override void InitOnAwake()
         {
-            base.Init();
+            base.InitOnAwake();
 
             defaultInputActions = new DefaultInputActions();
             defaultInputActions.Enable();
@@ -43,13 +51,11 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
                 InputCancelEvent?.Invoke();
             };
-            
             defaultInputActions.UI.Menu.performed += delegate
             {
                 if (Core.UiStateKeeper.GetGameMenuState() != GameMenuState.Main) return;
                 InputPauseEvent?.Invoke();
             };
-
             defaultInputActions.SystemMap.MouseActive.performed += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Keyboard) return;
@@ -68,9 +74,26 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 currentSystemInputMap = SystemInputMap.Xbox;
                 ChangeSystemInputMapEvent?.Invoke(currentSystemInputMap);
             };
+
+            gameInputActions = new GameInputActions();
+            gameInputActions.Enable();
+            
+            gameInputActions.ShipControls.RotationRight.performed += delegate
+            {
+                RotateShipRightEvent?.Invoke();
+            };
+            
+            gameInputActions.ShipControls.RotationLeft.performed += delegate
+            {
+                RotateShipLeftEvent?.Invoke();
+            };
         }
 
-        public SystemInputMap GetSystemInputMap() => currentSystemInputMap;
+        public override void Runtime()
+        {
+            base.Runtime();
+            MoveVector = gameInputActions.ShipControls.Move.ReadValue<Vector2>();
+        }
 
         public void AddButton(UiButton uiButton)
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Assets.SimpleLocalization;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesClasses.SettingsServiceSubclasses;
@@ -24,7 +23,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private PostProcessLayer postProcessLayer;
         private PostProcessVolume postProcessVolume;
         
-        private const string FullscreenPrefs = "FullscreenPrefs";
         private const string QualityPrefs = "QualityPrefs";
         private const string AliasingPrefs = "AliasingPrefs";
         private const string LanguagePrefs = "LanguagePrefs";
@@ -36,9 +34,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private float currentGameVolume;
         private float currentUiVolume;
 
-        public override void Init()
+        public override void InitOnAwake()
         {
-            base.Init();
+            base.InitOnAwake();
 
             Application.targetFrameRate = 60;
 
@@ -47,7 +45,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             int localizationId = 0;
             if (Application.systemLanguage == SystemLanguage.Russian) localizationId = 1;
             
-            playerPrefsStorage.CheckDefaultInt(FullscreenPrefs, GetFullscreenId());
             playerPrefsStorage.CheckDefaultInt(QualityPrefs, GetQualityId());
             playerPrefsStorage.CheckDefaultInt(AliasingPrefs, GetAliasingId());
             playerPrefsStorage.CheckDefaultInt(LanguagePrefs, localizationId);
@@ -56,10 +53,14 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             playerPrefsStorage.CheckDefaultFloat(GameVolumePrefs, 0.8f);
             playerPrefsStorage.Save();
             
-            SetFullscreenModeId(playerPrefsStorage.GetInt(FullscreenPrefs));
             SetQualityId(playerPrefsStorage.GetInt(QualityPrefs));
             SetAliasingId(playerPrefsStorage.GetInt(AliasingPrefs));
             SetLanguageId(playerPrefsStorage.GetInt(LanguagePrefs));
+        }
+
+        public override void InitOnStart()
+        {
+            base.InitOnStart();
             SetMusicVolume(playerPrefsStorage.GetFloat(MusicVolumePrefs));
             SetGameVolume(playerPrefsStorage.GetFloat(GameVolumePrefs));
             SetUiVolume(playerPrefsStorage.GetFloat(UiVolumePrefs));
@@ -258,7 +259,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void SaveSettings()
         {
-            playerPrefsStorage.SetInt(FullscreenPrefs, GetFullscreenId());
             playerPrefsStorage.SetInt(QualityPrefs, GetQualityId());
             playerPrefsStorage.SetInt(AliasingPrefs, GetAliasingId());
             playerPrefsStorage.SetInt(LanguagePrefs, GetLocalizationId());

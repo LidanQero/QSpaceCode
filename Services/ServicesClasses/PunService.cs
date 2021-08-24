@@ -33,9 +33,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private PunState punState;
 
-        public override void Init()
+        public override void InitOnAwake()
         {
-            base.Init();
+            base.InitOnAwake();
 
             punCallbacksSender = new GameObject("PunCallbackSender")
                 .AddComponent<PunCallbacksSender>();
