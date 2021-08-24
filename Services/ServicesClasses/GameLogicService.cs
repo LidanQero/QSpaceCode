@@ -18,7 +18,8 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private readonly LevelManager levelManager = new LevelManager();
         private readonly PunObjectsManager punObjectsManager = new PunObjectsManager();
         private readonly LocalObjectsManager localObjectsManager = new LocalObjectsManager();
-        private Transform camera;
+        private GameCamera gameCamera;
+        private MinimapCamera minimapCamera;
         private bool gameIsStart;
         private float gameTime;
 
@@ -67,9 +68,18 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             localObjectsManager.DeleteLocalObject(localObject);
         }
 
+        public void RegisterGameCamera(GameCamera newGameCamera)
+        {
+            gameCamera = newGameCamera;
+        }
+
+        public void RegisterMinimapCamera(MinimapCamera newMinimapCamera)
+        {
+            minimapCamera = newMinimapCamera;
+        }
+
         private void ClientPrepare()
         {
-            camera = Camera.main.transform;
             SpawnPlayer();
         }
 
@@ -94,7 +104,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             var players = PhotonNetwork.PlayerList.ToArray();
             var playerShip = Core.GameplayConfig.PlayerShip;
-            var spawnPos = Vector3.back * 150;
+            var spawnPos = Vector3.forward * 150;
 
             var playerNumber = 0;
 
@@ -134,11 +144,13 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             var max = Core.GameplayConfig.MaxCameraRangeFromCenter;
             if (targetPosition.sqrMagnitude > max * max)
                 targetPosition = targetPosition.normalized * max;
-            //var angle = Vector3.SignedAngle(Vector3.forward, shipPosition, Vector3.up);
-            var targetRotation = Quaternion.Euler(90, punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
-            camera.DOKill();
-            camera.DOMove(targetPosition, 0.5f);
-            camera.DORotateQuaternion(targetRotation, 0.5f);
+            var targetRotation = Quaternion.Euler(90,
+                punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
+            gameCamera.TransformCash.DOKill();
+            gameCamera.TransformCash.DOMove(targetPosition, 0.5f);
+            gameCamera.TransformCash.DORotateQuaternion(targetRotation, 0.5f);
+            minimapCamera.TransformCash.DOKill();
+            minimapCamera.TransformCash.DORotateQuaternion(targetRotation, 0.5f);
         }
     }
 }

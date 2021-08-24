@@ -12,9 +12,12 @@ namespace Master.QSpaceCode.Game.Player
         [SerializeField] private float moveSpeed;
         [SerializeField] private float marchPowerSpend;
         [SerializeField] private float movePowerSpend;
+        [SerializeField] private float rotateSpeed;
 
         public float MarchSpeed => marchSpeed;
         public float MoveSpeed => moveSpeed;
+
+        public float RotateSpeed => rotateSpeed;
 
         protected ShipWeapon firstWeapon;
         protected ShipWeapon secondWeapon;

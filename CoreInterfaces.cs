@@ -97,6 +97,8 @@ namespace Master.QSpaceCode
         void DeletePunObject(PunObject punObject);
         void RegisterLocalObject(LocalObject localObject);
         void DeleteLocalObject(LocalObject localObject);
+        void RegisterGameCamera(GameCamera gameCamera);
+        void RegisterMinimapCamera(MinimapCamera minimapCamera);
     }
 
     public interface ISoundsKeeper

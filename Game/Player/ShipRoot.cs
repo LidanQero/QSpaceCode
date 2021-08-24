@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game.Player
@@ -7,14 +6,8 @@ namespace Master.QSpaceCode.Game.Player
     public sealed class ShipRoot : PunObject
     {
         private ShipShell shell;
-        private bool rotating;
         private int targetAngle = 0;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            RefreshRotation();
-        }
+        private float lastRotateTime;
 
         protected override void OnEnable()
         {
@@ -33,47 +26,43 @@ namespace Master.QSpaceCode.Game.Player
         private void RotateRight()
         {
             if (!IsMine) return;
-            if (!shell || rotating) return;
+            if (!shell) return;
+            if (lastRotateTime + 90 / shell.RotateSpeed > Time.time) return;
+            lastRotateTime = Time.time;
             if (targetAngle == 0) targetAngle = -90;
             else if (targetAngle == -90) targetAngle = -180;
             else if (targetAngle == -180 || targetAngle == 180) targetAngle = 90;
             else if (targetAngle == 90) targetAngle = 0;
-            rotating = true;
-            Quaternion targetRotation = TransformCash.rotation * Quaternion.Euler(0, 90, 0);
-            var t = TransformCash.DORotateQuaternion(targetRotation, 0.2f);
-            t.onComplete += () =>
-            {
-                RefreshRotation();
-                rotating = false;
-            };
         }
 
         private void RotateLeft()
         {
-            if (!shell || rotating) return;
+            if (!IsMine) return;
+            if (!shell) return;
+            if (lastRotateTime + 90 / shell.RotateSpeed > Time.time) return;
+            lastRotateTime = Time.time;
             if (targetAngle == 0) targetAngle = 90;
             else if (targetAngle == 90) targetAngle = 180;
             else if (targetAngle == 180 || targetAngle == -180) targetAngle = -90;
             else if (targetAngle == -90) targetAngle = 0;
-            rotating = true;
-            Quaternion targetRotation = TransformCash.rotation * Quaternion.Euler(0, -90, 0);
-            var t = TransformCash.DORotateQuaternion(targetRotation, 0.2f);
-            t.onComplete += () =>
-            {
-                RefreshRotation();
-                rotating = false;
-            };
         }
 
-        public void Move(Vector2 vector)
+        private void Update()
         {
-            if (!shell || rotating) return;
-            if (vector == Vector2.zero) return; 
-            vector *= Time.deltaTime;
+            if (!shell) return;
+            RefreshRotation();
+        }
+
+        public void Move(Vector2 inputVector)
+        {
+            if (!shell) return;
+            if (inputVector == Vector2.zero) return;
+            var moveVector = inputVector;
+            moveVector *= Time.deltaTime;
             var targetPosition = TransformCash.position;
-            targetPosition += TransformCash.right * vector.x * shell.MoveSpeed;
-            if (vector.y > 0) targetPosition += TransformCash.forward * vector.y * shell.MarchSpeed;
-            else targetPosition += TransformCash.forward * vector.y * shell.MoveSpeed;
+            targetPosition += TransformCash.right * moveVector.x * shell.MoveSpeed;
+            if (inputVector.y > 0) targetPosition += TransformCash.forward * moveVector.y * shell.MarchSpeed;
+            else targetPosition += TransformCash.forward * moveVector.y * shell.MoveSpeed;
             var max = Core.GameplayConfig.MaxPlayerRangeFromCenter;
             var min = Core.GameplayConfig.MinPlayerRangeFromCenter;
             var sqrCur = targetPosition.sqrMagnitude;
@@ -82,7 +71,6 @@ namespace Master.QSpaceCode.Game.Player
             else if (sqrCur < min * min)
                 targetPosition = targetPosition.normalized * min;
             TransformCash.position = targetPosition;
-            RefreshRotation();
         }
 
         private void RefreshRotation()
@@ -90,7 +78,11 @@ namespace Master.QSpaceCode.Game.Player
             var currentAngle =
                 Vector3.SignedAngle(TransformCash.forward, TransformCash.position, Vector3.up);
             var dif = currentAngle - targetAngle;
-            TransformCash.Rotate(Vector3.up, dif);
+            var rotation = TransformCash.rotation;
+            var targetRotate = Quaternion.AngleAxis(dif, Vector3.up) * rotation;
+            rotation = Quaternion.RotateTowards(rotation, targetRotate,
+                    shell.RotateSpeed * Time.deltaTime);
+            TransformCash.rotation = rotation;
         }
 
         [PunRPC]
