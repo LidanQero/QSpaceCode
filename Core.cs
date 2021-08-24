@@ -9,6 +9,8 @@ namespace Master.QSpaceCode
         [SerializeField] private ScenesConfig scenesConfig;
         [SerializeField] private AudioConfig audioConfig;
         [SerializeField] private UiConfig uiConfig;
+        [SerializeField] private GameplayConfig gameplayConfig;
+        [SerializeField] private LevelsConfig levelsConfig;
 
         public static ScenesConfig ScenesConfig =>
             singleton ? singleton.scenesConfig : FindObjectOfType<Core>().scenesConfig;
@@ -18,6 +20,12 @@ namespace Master.QSpaceCode
 
         public static UiConfig UiConfig =>
             singleton ? singleton.uiConfig : FindObjectOfType<Core>().uiConfig;
+        
+        public static GameplayConfig GameplayConfig =>
+            singleton ? singleton.gameplayConfig : FindObjectOfType<Core>().gameplayConfig;
+
+        public static LevelsConfig LevelsConfig =>
+            singleton ? singleton.levelsConfig : FindObjectOfType<Core>().levelsConfig;
 
         private static readonly ServicesMediator ServicesMediator = new ServicesMediator();
 
@@ -43,11 +51,9 @@ namespace Master.QSpaceCode
             else
             {
                 DestroyImmediate(gameObject);
+                return;
             }
-        }
-
-        private void Start()
-        {
+            
             ServicesMediator.Init();
         }
 

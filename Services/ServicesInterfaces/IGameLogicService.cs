@@ -2,6 +2,8 @@
 {
     public interface IGameLogicService
     {
-        
+        void PrepareToGame();
+        void StartGame();
+        void ResetGame();
     }
 }

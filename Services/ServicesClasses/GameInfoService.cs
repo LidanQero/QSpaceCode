@@ -1,6 +1,8 @@
-﻿
+﻿using ExitGames.Client.Photon;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
+using Photon.Pun;
+using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {

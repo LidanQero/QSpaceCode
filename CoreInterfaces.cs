@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Master.QSpaceCode.Game;
 using Master.QSpaceCode.PlayerUi;
 using Photon.Realtime;
 using UnityEngine;
@@ -87,7 +88,10 @@ namespace Master.QSpaceCode
 
     public interface IViewersKeeper
     {
-        
+        void RegisterPunObject(PunObject punObject);
+        void DeletePunObject(PunObject punObject);
+        void RegisterLocalObject(LocalObject localObject);
+        void DeleteLocalObject(LocalObject localObject);
     }
 
     public interface ISoundsKeeper

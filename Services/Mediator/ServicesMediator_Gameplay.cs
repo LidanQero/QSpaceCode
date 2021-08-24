@@ -5,6 +5,7 @@
         public void StartGame()
         {
             punService.CheckPunForGame();
+            gameLogicService.StartGame();
         }
     }
 }

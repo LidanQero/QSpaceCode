@@ -54,6 +54,7 @@ namespace Master.QSpaceCode.Services.Mediator
         
         public void DisconnectFromGame()
         {
+            gameLogicService.ResetGame();
             punService.Disconnect();
             scenesService.LoadMenuScene();
         }

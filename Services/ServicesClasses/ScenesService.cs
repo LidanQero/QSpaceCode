@@ -44,7 +44,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void TestLoadingScenesForPun(Player targetPlayer, Hashtable changedProps)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
             if (!changedProps.ContainsKey("PlayerLoadedScene")) return;
             var loadedInfos = new List<string>();
 

@@ -15,6 +15,7 @@
         public void FinishLoadingGameScene()
         {
             uiService.OpenGameMain();
+            gameLogicService.PrepareToGame();
         }
     }
 }
