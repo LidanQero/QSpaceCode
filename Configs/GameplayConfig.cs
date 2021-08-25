@@ -11,9 +11,17 @@ namespace Master.QSpaceCode.Configs
         [SerializeField] private float minPlayerRangeFromCenter;
         [SerializeField] private float maxPlayerRangeFromCenter;
         [SerializeField] private float maxCameraRangeFromCenter;
-        
+        [SerializeField] private float minCameraSize;
+        [SerializeField] private float maxCameraSize;
+        [SerializeField] private float cameraSizeChangeStep;
+
         public ShipRoot PlayerShip => playerShip;
 
+        public float MinCameraSize => minCameraSize;
+
+        public float MaxCameraSize => maxCameraSize;
+
+        public float CameraSizeChangeStep => cameraSizeChangeStep;
         public float MinPlayerRangeFromCenter => minPlayerRangeFromCenter;
         public float MaxPlayerRangeFromCenter => maxPlayerRangeFromCenter;
 

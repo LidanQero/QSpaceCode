@@ -22,6 +22,8 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public Vector2 MoveVector { get; private set; }
         public event Action RotateShipRightEvent;
         public event Action RotateShipLeftEvent;
+        public event Action UpCameraSizeEvent;
+        public event Action DownCameraSizeEvent;
 
         public event Action<SystemInputMap> ChangeSystemInputMapEvent;
         public event Action InputCancelEvent;
@@ -86,6 +88,16 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             gameInputActions.ShipControls.RotationLeft.performed += delegate
             {
                 RotateShipLeftEvent?.Invoke();
+            };
+            
+            gameInputActions.ShipControls.UpCameraSize.performed += delegate
+            {
+                UpCameraSizeEvent?.Invoke();
+            };
+            
+            gameInputActions.ShipControls.DownCameraSize.performed += delegate
+            {
+                DownCameraSizeEvent?.Invoke();
             };
         }
 

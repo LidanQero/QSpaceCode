@@ -78,6 +78,9 @@ namespace Master.QSpaceCode
         event Action RotateShipRightEvent;
         event Action RotateShipLeftEvent;
 
+        event Action UpCameraSizeEvent;
+        event Action DownCameraSizeEvent;
+
         void AddButton(UiButton uiButton);
         void RemoveButton(UiButton uiButton);
 
