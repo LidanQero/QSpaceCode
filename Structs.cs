@@ -5,11 +5,11 @@ namespace Master.QSpaceCode
 {
     [Serializable] public struct ShipConfig
     {
-        public ShipShell shell;
-        public ShipWeapon firstWeapon;
-        public ShipWeapon secondWeapon;
-        public ShipWeapon thirdWeapon;
-        public ShipShield shield;
-        public ShipCore core;
+        public string shell;
+        public string firstWeapon;
+        public string secondWeapon;
+        public string thirdWeapon;
+        public string shield;
+        public string core;
     }
 }

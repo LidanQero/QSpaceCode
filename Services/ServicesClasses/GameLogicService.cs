@@ -91,7 +91,6 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void ClientRuntime()
         {
             gameTime += Time.deltaTime;
-            punObjectsManager.PlayerShip.Move(Core.UiInputKeeper.MoveVector);
             UpdateCameraPosition();
         }
 

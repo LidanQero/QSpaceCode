@@ -1,18 +1,17 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game
 {
     [RequireComponent(typeof(PhotonView))]
-    public abstract class PunObject : PhotonView
+    public abstract class PunObject : MonoBehaviour
     {
         public Transform TransformCash { get; private set; }
+        public PhotonView PhotonView { get; private set; }
 
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
-            
+            PhotonView = GetComponent<PhotonView>();
             TransformCash = GetComponent<Transform>();
         }
 

@@ -13,17 +13,21 @@ namespace Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses
         {
             switch (punObject)
             {
-                case ShipRoot {IsMine: true} playerShip:
-                    PlayerShip = playerShip;
-                    playerShip.RPC(nameof(playerShip.LoadConfig), RpcTarget.All,
-                        Core.ShipsConfig.GetDefaultShipConfig());
+                case ShipRoot playerShip:
+                    if (playerShip.PhotonView.IsMine)
+                    {
+                        PlayerShip = playerShip;
+                        playerShip.PhotonView.RPC(nameof(playerShip.LoadConfig), RpcTarget.All,
+                            Core.ShipsConfig.GetDefaultShipConfig());
+                    }
+
                     break;
             }
         }
 
         public void DeletePunObject(PunObject punObject)
         {
-            
+
         }
     }
 }
