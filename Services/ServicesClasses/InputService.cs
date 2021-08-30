@@ -7,7 +7,6 @@ using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
@@ -20,10 +19,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public SystemInputMap GetSystemInputMap() => currentSystemInputMap;
 
         public Vector2 MoveVector { get; private set; }
-        public event Action RotateShipRightEvent;
-        public event Action RotateShipLeftEvent;
-        public event Action UpCameraSizeEvent;
-        public event Action DownCameraSizeEvent;
+        public float Rotation { get; private set; }
 
         public event Action<SystemInputMap> ChangeSystemInputMapEvent;
         public event Action InputCancelEvent;
@@ -79,32 +75,13 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
             gameInputActions = new GameInputActions();
             gameInputActions.Enable();
-            
-            gameInputActions.ShipControls.RotationRight.performed += delegate
-            {
-                RotateShipRightEvent?.Invoke();
-            };
-            
-            gameInputActions.ShipControls.RotationLeft.performed += delegate
-            {
-                RotateShipLeftEvent?.Invoke();
-            };
-            
-            gameInputActions.ShipControls.UpCameraSize.performed += delegate
-            {
-                UpCameraSizeEvent?.Invoke();
-            };
-            
-            gameInputActions.ShipControls.DownCameraSize.performed += delegate
-            {
-                DownCameraSizeEvent?.Invoke();
-            };
         }
 
         public override void Runtime()
         {
             base.Runtime();
             MoveVector = gameInputActions.ShipControls.Move.ReadValue<Vector2>();
+            Rotation = gameInputActions.ShipControls.Rotation.ReadValue<float>();
         }
 
         public void AddButton(UiButton uiButton)

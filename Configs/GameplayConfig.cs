@@ -8,23 +8,9 @@ namespace Master.QSpaceCode.Configs
     public class GameplayConfig : ScriptableObject
     {
         [SerializeField] private ShipRoot playerShip;
-        [SerializeField] private float minPlayerRangeFromCenter;
-        [SerializeField] private float maxPlayerRangeFromCenter;
-        [SerializeField] private float maxCameraRangeFromCenter;
-        [SerializeField] private float minCameraSize;
-        [SerializeField] private float maxCameraSize;
-        [SerializeField] private float cameraSizeChangeStep;
+        [SerializeField] private Vector2 mapSize;
 
         public ShipRoot PlayerShip => playerShip;
-
-        public float MinCameraSize => minCameraSize;
-
-        public float MaxCameraSize => maxCameraSize;
-
-        public float CameraSizeChangeStep => cameraSizeChangeStep;
-        public float MinPlayerRangeFromCenter => minPlayerRangeFromCenter;
-        public float MaxPlayerRangeFromCenter => maxPlayerRangeFromCenter;
-
-        public float MaxCameraRangeFromCenter => maxCameraRangeFromCenter;
+        public Vector2 MapSize => mapSize;
     }
 }

@@ -138,21 +138,15 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void UpdateCameraPosition()
         {
             var shipPosition = punObjectsManager.PlayerShip.TransformCash.position;
-            var orthographicSize = gameCamera.Camera.orthographicSize;
             var shipForward = punObjectsManager.PlayerShip.TransformCash.forward;
-            var offset = shipForward * orthographicSize / 1.6f;
+            var offset = shipForward * 80;
             var targetPosition = shipPosition + offset;
-            var max = Core.GameplayConfig.MaxCameraRangeFromCenter - orthographicSize / 20f;
-            if (targetPosition.sqrMagnitude > max * max)
-                targetPosition = targetPosition.normalized * max;
-            var targetRotation = Quaternion.Euler(90,
-                punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
+            var targetRotation = 
+                Quaternion.Euler(90, punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
             targetPosition += Vector3.up * 20;
             gameCamera.TransformCash.DOKill();
             gameCamera.TransformCash.DOMove(targetPosition, 0.5f);
             gameCamera.TransformCash.DORotateQuaternion(targetRotation, 0.5f);
-            minimapCamera.TransformCash.DOKill();
-            minimapCamera.TransformCash.DORotateQuaternion(targetRotation, 0.5f);
         }
     }
 }

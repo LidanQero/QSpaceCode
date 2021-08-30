@@ -75,11 +75,7 @@ namespace Master.QSpaceCode
         event Action InputPauseEvent;
         
         Vector2 MoveVector { get; }
-        event Action RotateShipRightEvent;
-        event Action RotateShipLeftEvent;
-
-        event Action UpCameraSizeEvent;
-        event Action DownCameraSizeEvent;
+        float Rotation { get; }
 
         void AddButton(UiButton uiButton);
         void RemoveButton(UiButton uiButton);
