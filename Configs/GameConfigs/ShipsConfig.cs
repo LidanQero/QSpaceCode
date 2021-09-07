@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Master.QSpaceCode.Configs
+namespace Master.QSpaceCode.Configs.GameConfigs
 {
-    [CreateAssetMenu(fileName = "Ships Config", menuName = "GameConfigs/Ships Config", order = 0)]
+    [CreateAssetMenu(fileName = "Ships Config", menuName = "Game Configs/Ships Config", order = 0)]
     public class ShipsConfig : ScriptableObject
     {
         [SerializeField] private ShipConfig testShipConfig;

@@ -1,7 +1,6 @@
 ﻿using Master.QSpaceCode.Game;
-using Master.QSpaceCode.Game.Player;
+using Master.QSpaceCode.Game.Ships;
 using Photon.Pun;
-using UnityEngine;
 
 namespace Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses
 {

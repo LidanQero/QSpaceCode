@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Master.QSpaceCode.Configs
+namespace Master.QSpaceCode.Configs.GameConfigs
 {
-    [CreateAssetMenu(fileName = "Audio Config", menuName = "GameConfigs/Audio Config", order = 0)]
+    [CreateAssetMenu(fileName = "Audio Config", menuName = "Game Configs/Audio Config", order = 0)]
     public sealed class AudioConfig : ScriptableObject
     {
         [SerializeField] private AudioMixerGroup uiMixer;

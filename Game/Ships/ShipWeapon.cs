@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Master.QSpaceCode.Game.Player
+namespace Master.QSpaceCode.Game.Ships
 {
     public abstract class ShipWeapon : MonoBehaviour
     {

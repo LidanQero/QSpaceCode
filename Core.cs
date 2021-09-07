@@ -1,5 +1,6 @@
 ﻿using System;
 using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Configs.GameConfigs;
 using Master.QSpaceCode.Services.Mediator;
 using UnityEngine;
 

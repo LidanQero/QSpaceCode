@@ -137,12 +137,12 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         private void UpdateCameraPosition()
         {
-            var shipPosition = punObjectsManager.PlayerShip.TransformCash.position;
-            var shipForward = punObjectsManager.PlayerShip.TransformCash.forward;
+            var shipPosition = punObjectsManager.PlayerShip.Transform.position;
+            var shipForward = punObjectsManager.PlayerShip.Transform.forward;
             var offset = shipForward * 80;
             var targetPosition = shipPosition + offset;
             var targetRotation = 
-                Quaternion.Euler(90, punObjectsManager.PlayerShip.TransformCash.eulerAngles.y, 0);
+                Quaternion.Euler(90, punObjectsManager.PlayerShip.Transform.eulerAngles.y, 0);
             targetPosition += Vector3.up * 20;
             gameCamera.TransformCash.DOKill();
             gameCamera.TransformCash.DOMove(targetPosition, 0.5f);
