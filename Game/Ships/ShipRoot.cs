@@ -7,6 +7,9 @@ namespace Master.QSpaceCode.Game.Ships
     [SelectionBase]
     public sealed class ShipRoot : PunObject
     {
+        public Vector2 inputMove { get; private set; }
+        public float inputRotation { get; private set; }
+        
         private ShipShell shell;
         private ShipGenerator generator;
         
@@ -26,15 +29,18 @@ namespace Master.QSpaceCode.Game.Ships
         {
             if (!PhotonView.IsMine) return;
             if (!shell) return;
-            Move(Core.UiInputKeeper.MoveVector);
-            Rotation(Core.UiInputKeeper.Rotation);
+            inputMove = Core.UiInputKeeper.MoveVector;
+            inputRotation = Core.UiInputKeeper.Rotation;
+            Move();
+            Rotation();
             generator.Update();
+            shell.UpdateJets(inputMove, inputRotation);
         }
 
-        private void Move(Vector2 inputVector)
+        private void Move()
         {
             var energyCost = 0f;
-            
+
             shell.GetMoveSpeed(speedCharacteristic, out var moveSpeed, out var moveCost);
             shell.GetMarchSpeed(speedCharacteristic, out var marchSpeed, out var marchCost);
 
@@ -43,36 +49,41 @@ namespace Master.QSpaceCode.Game.Ships
             marchSpeed *= Time.deltaTime;
             marchCost *= Time.deltaTime;
             
-            energyCost += Mathf.Abs(inputVector.x) * moveCost;
-            if (inputVector.y > 0) energyCost += inputVector.y * marchCost;
-            else energyCost += Mathf.Abs(inputVector.y) * moveCost;
+            energyCost += Mathf.Abs(inputMove.x) * moveCost;
+            if (inputMove.y > 0) energyCost += inputMove.y * marchCost;
+            else energyCost += Mathf.Abs(inputMove.y) * moveCost;
 
             generator.SpendEnergy(energyCost, out var canSpend);
-            if (!canSpend) inputVector = Vector2.zero;
+            if (!canSpend) inputMove = Vector2.zero;
 
             var targetMove = new Vector3();
-            targetMove += Transform.right * inputVector.x * moveSpeed;
-            if (inputVector.y > 0) targetMove += Transform.forward * inputVector.y * marchSpeed;
-            else targetMove += Transform.forward * inputVector.y * moveSpeed;
+            targetMove += Transform.right * inputMove.x * moveSpeed;
+            if (inputMove.y > 0) targetMove += Transform.forward * inputMove.y * marchSpeed;
+            else targetMove += Transform.forward * inputMove.y * moveSpeed;
 
             characterController.Move(targetMove);
-            PhotonView.RPC(nameof(SynchronizeJets), RpcTarget.All, inputVector);
         }
 
-        private void Rotation(float input)
+        private void Rotation()
         {
-            if (input == 0) return;
-            
+            if (inputRotation == 0) return;
+            var rotationSpeedMod = inputRotation;
+            rotationSpeedMod *= 1 - Mathf.Abs(inputMove.x) / 2;
+
             shell.GetRotateSpeed(speedCharacteristic, out var speed, out var cost);
 
             speed *= Time.deltaTime;
-            cost *= Time.deltaTime;
+            cost *= Time.deltaTime * Mathf.Abs(rotationSpeedMod);
 
             generator.SpendEnergy(cost, out var canSpend);
-            if (!canSpend) input = 0;
+            if (!canSpend)
+            {
+                inputRotation = 0;
+                rotationSpeedMod = 0;
+            }
             
             var rotation = Transform.rotation;
-            var angle = input * speed;
+            var angle = rotationSpeedMod * speed;
             rotation *= Quaternion.AngleAxis(angle, Vector3.up);
             Transform.rotation = rotation;
         }
@@ -94,12 +105,6 @@ namespace Master.QSpaceCode.Game.Ships
             generator = new ShipGenerator();
             generator.SetCharacteristics(energyLimitCharacteristic, energyRegenCharacteristic);
             generator.Reset();
-        }
-
-        [PunRPC]
-        public void SynchronizeJets(Vector2 value)
-        {
-            if (shell) shell.UpdateJets(value);
         }
     }
 }
