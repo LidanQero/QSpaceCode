@@ -1,4 +1,5 @@
 ﻿using System;
+using Master.QSpaceCode.Configs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ namespace Master.QSpaceCode.PlayerUi
             slider = GetComponent<Slider>();
             slider.onValueChanged.AddListener(delegate(float value)
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.SliderChanged);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.SliderChanged);
                 SliderChangedValueEvent?.Invoke(value);
             });
         }
@@ -45,7 +46,7 @@ namespace Master.QSpaceCode.PlayerUi
         {
             if (Core.UIHelper.LastSelectedGameObject != gameObject)
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonSelected);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
             }
         }
     }

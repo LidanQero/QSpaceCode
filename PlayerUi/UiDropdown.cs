@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Master.QSpaceCode.Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,7 +23,7 @@ namespace Master.QSpaceCode.PlayerUi
             dropdown = GetComponent<TMP_Dropdown>();
             dropdown.onValueChanged.AddListener(delegate(int value)
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.DropdownChanged);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.DropdownChanged);
                 DropdownChangedValueEvent?.Invoke(value);
             });
         }
@@ -52,7 +53,7 @@ namespace Master.QSpaceCode.PlayerUi
         {
             if (Core.UIHelper.LastSelectedGameObject != gameObject)
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonSelected);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
             }
         }
 

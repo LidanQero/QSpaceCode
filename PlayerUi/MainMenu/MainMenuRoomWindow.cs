@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Master.QSpaceCode.Configs;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,7 +40,7 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
 
             foreach (var player in players)
             {
-                var newImage = Instantiate(Core.UiConfig.PlayerImage, playersParent, true);
+                var newImage = Instantiate(CurrentConfigs.UiConfig.PlayerImage, playersParent, true);
                 newImage.transform.localScale = Vector3.one;
                 newImage.SetInfo(player.NickName, player.IsMasterClient);
                 playerImages.Add(newImage);

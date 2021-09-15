@@ -1,4 +1,5 @@
-﻿using Master.QSpaceCode.Game;
+﻿using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Game;
 using Master.QSpaceCode.Game.Ships;
 using Photon.Pun;
 
@@ -17,7 +18,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses
                     {
                         PlayerShip = playerShip;
                         playerShip.PhotonView.RPC(nameof(playerShip.LoadConfig), RpcTarget.All,
-                            Core.ShipsConfig.GetDefaultShipConfig());
+                            CurrentConfigs.ShipsConfig.GetDefaultShipConfig());
                     }
 
                     break;

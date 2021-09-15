@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using Master.QSpaceCode.Configs;
+using UnityEngine.EventSystems;
 
 namespace Master.QSpaceCode.PlayerUi.Buttons
 {
@@ -20,7 +21,7 @@ namespace Master.QSpaceCode.PlayerUi.Buttons
         public override void OnPointerEnter(PointerEventData eventData)
         {
             base.OnPointerEnter(eventData);
-            Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonSelected);
+            Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
         }
     }
 }

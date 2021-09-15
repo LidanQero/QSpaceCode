@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ExitGames.Client.Photon;
+using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
 using Photon.Pun;
@@ -26,20 +27,20 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
         public void LoadGameScene()
         {
-            targetScene = Core.ScenesConfig.GameSceneName;
+            targetScene = CurrentConfigs.ScenesConfig.GameSceneName;
             if (IsOnline() && PhotonNetwork.IsMasterClient)
-                PhotonNetwork.LoadLevel(Core.ScenesConfig.LoadingSceneName);
+                PhotonNetwork.LoadLevel(CurrentConfigs.ScenesConfig.LoadingSceneName);
             else if (!IsOnline())
-                SceneManager.LoadSceneAsync(Core.ScenesConfig.LoadingSceneName);
+                SceneManager.LoadSceneAsync(CurrentConfigs.ScenesConfig.LoadingSceneName);
         }
 
         public void LoadMenuScene()
         {
-            targetScene = Core.ScenesConfig.MenuSceneName;
+            targetScene = CurrentConfigs.ScenesConfig.MenuSceneName;
             if (IsOnline() && PhotonNetwork.IsMasterClient)
-                PhotonNetwork.LoadLevel(Core.ScenesConfig.LoadingSceneName);
+                PhotonNetwork.LoadLevel(CurrentConfigs.ScenesConfig.LoadingSceneName);
             else if (!IsOnline())
-                SceneManager.LoadSceneAsync(Core.ScenesConfig.LoadingSceneName);
+                SceneManager.LoadSceneAsync(CurrentConfigs.ScenesConfig.LoadingSceneName);
         }
 
         public void TestLoadingScenesForPun(Player targetPlayer, Hashtable changedProps)
@@ -56,19 +57,19 @@ namespace Master.QSpaceCode.Services.ServicesClasses
 
             for (int i = 0; i < loadedInfos.Count; i++)
             {
-                if (!loadedInfos[i].Equals(Core.ScenesConfig.MenuSceneName)) break;
+                if (!loadedInfos[i].Equals(CurrentConfigs.ScenesConfig.MenuSceneName)) break;
                 if (i == loadedInfos.Count - 1) PlayersCompleteLoadMenuScene();
             }
             
             for (int i = 0; i < loadedInfos.Count; i++)
             {
-                if (!loadedInfos[i].Equals(Core.ScenesConfig.LoadingSceneName)) break;
+                if (!loadedInfos[i].Equals(CurrentConfigs.ScenesConfig.LoadingSceneName)) break;
                 if (i == loadedInfos.Count - 1) PlayersCompleteLoadLoadingScene();
             }
             
             for (int i = 0; i < loadedInfos.Count; i++)
             {
-                if (!loadedInfos[i].Equals(Core.ScenesConfig.GameSceneName)) break;
+                if (!loadedInfos[i].Equals(CurrentConfigs.ScenesConfig.GameSceneName)) break;
                 if (i == loadedInfos.Count - 1) PlayersCompleteLoadGameScene();
             }
         }
@@ -95,25 +96,25 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 var prop = new Hashtable {{"PlayerLoadedScene", scene.name}};
                 PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
             }
-            else if (scene.name.Equals(Core.ScenesConfig.LoadingSceneName))
+            else if (scene.name.Equals(CurrentConfigs.ScenesConfig.LoadingSceneName))
             {
-                if (targetScene.IsNullOrEmpty()) targetScene = Core.ScenesConfig.MenuSceneName;
+                if (targetScene.IsNullOrEmpty()) targetScene = CurrentConfigs.ScenesConfig.MenuSceneName;
                 SceneManager.LoadSceneAsync(targetScene);
             }
-            else if (scene.name.Equals(Core.ScenesConfig.GameSceneName))
+            else if (scene.name.Equals(CurrentConfigs.ScenesConfig.GameSceneName))
             {
                 servicesMediator.StartGame();
             }
             
-            if (scene.name.Equals(Core.ScenesConfig.MenuSceneName))
+            if (scene.name.Equals(CurrentConfigs.ScenesConfig.MenuSceneName))
             {
                 servicesMediator.FinishLoadingMenuScene();
             }
-            else if (scene.name.Equals(Core.ScenesConfig.LoadingSceneName))
+            else if (scene.name.Equals(CurrentConfigs.ScenesConfig.LoadingSceneName))
             {
                 servicesMediator.FinishLoadingLoadingScene();
             }
-            else if (scene.name.Equals(Core.ScenesConfig.GameSceneName))
+            else if (scene.name.Equals(CurrentConfigs.ScenesConfig.GameSceneName))
             {
                 servicesMediator.FinishLoadingGameScene();
             }

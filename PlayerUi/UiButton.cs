@@ -1,4 +1,5 @@
 ﻿using System;
+using Master.QSpaceCode.Configs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace Master.QSpaceCode.PlayerUi
             button = GetComponent<Button>();
             button.onClick.AddListener(delegate
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonPressed);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonPressed);
                 ButtonPressedEvent?.Invoke();
             });
         }
@@ -53,7 +54,7 @@ namespace Master.QSpaceCode.PlayerUi
         {
             if (Core.UIHelper.LastSelectedGameObject != gameObject)
             {
-                Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.ButtonSelected);
+                Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
             }
         }
 

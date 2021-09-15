@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.SimpleLocalization;
+using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesClasses.SettingsServiceSubclasses;
 using Master.QSpaceCode.Services.ServicesInterfaces;
@@ -239,21 +240,21 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public void SetMusicVolume(float volume)
         {
             currentMusicVolume = volume;
-            Core.AudioConfig.MusicMixer.audioMixer.SetFloat(
+            CurrentConfigs.AudioConfig.MusicMixer.audioMixer.SetFloat(
                 "MusicVolume", Mathf.Log10(volume) * 20);
         }
 
         public void SetUiVolume(float volume)
         {
             currentUiVolume = volume;
-            Core.AudioConfig.MusicMixer.audioMixer.SetFloat(
+            CurrentConfigs.AudioConfig.MusicMixer.audioMixer.SetFloat(
                 "UiVolume", Mathf.Log10(volume) * 20);
         }
 
         public void SetGameVolume(float volume)
         {
             currentGameVolume = volume;
-            Core.AudioConfig.MusicMixer.audioMixer.SetFloat(
+            CurrentConfigs.AudioConfig.MusicMixer.audioMixer.SetFloat(
                 "GameVolume", Mathf.Log10(volume) * 20);
         }
 

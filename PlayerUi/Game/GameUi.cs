@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Master.QSpaceCode.Configs;
+using UnityEngine;
 
 namespace Master.QSpaceCode.PlayerUi.Game
 {
@@ -48,7 +49,7 @@ namespace Master.QSpaceCode.PlayerUi.Game
                     break;
             }
             
-            Core.SoundsKeeper.PlayUiSound(Core.AudioConfig.WindowOpened);
+            Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.WindowOpened);
         }
 
         private void CloseAllWindows()

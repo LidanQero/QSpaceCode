@@ -1,44 +1,44 @@
 ﻿using System;
-using Master.QSpaceCode.Configs.ShipsConfigs;
+using Master.QSpaceCode.Configs;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game.Ships
 {
-    public abstract class ShipGenerator : MonoBehaviour
+    public sealed class ShipGenerator
     {
         public event Action<float> OnEnergyChanged;
-        
-        public float MaxEnergy => shipGeneratorConfig.MaxEnergy;
-        public float EnergyRegen => shipGeneratorConfig.EnergyRegen;
-        
-        protected ShipGeneratorConfig shipGeneratorConfig;
 
         private float currentEnergy;
+        private float energyLimit;
+        private float energyRegen;
         private float energyChanged;
 
-        protected virtual void Update()
+        public void SetCharacteristics(int limit, int regen)
+        {
+            var config = CurrentConfigs.ShipsConfig;
+            energyLimit = (limit - 6) * config.ChangeEnergyLimitStep + config.BaseEnergyLimit;
+            energyRegen = (regen - 6) * config.ChangeEnergyRegenStep + config.BaseEnergyRegen;
+        }
+
+        public void Reset()
+        {
+            currentEnergy = energyLimit;
+        }
+
+        public void Update()
         {
             if (energyChanged == 0) return;
-            
+            energyChanged += energyRegen * Time.deltaTime;
             currentEnergy += energyChanged;
-            currentEnergy = Mathf.Clamp(currentEnergy, 0, shipGeneratorConfig.MaxEnergy);
+            currentEnergy = Mathf.Clamp(currentEnergy, 0, energyLimit);
             OnEnergyChanged?.Invoke(currentEnergy);
             energyChanged = 0;
         }
 
-        public bool CanSpendEnergy(float value)
+        public void SpendEnergy(in float value, out bool canSpend)
         {
-            return currentEnergy + energyChanged >= value;
-        }
-
-        public void ChangeEnergy(float value)
-        {
-            energyChanged += value;
-        }
-
-        public virtual void LoadConfig(ShipGeneratorConfig newConfig)
-        {
-            shipGeneratorConfig = newConfig;
+            canSpend = currentEnergy + energyChanged >= value;
+            if (canSpend) energyChanged -= value;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.PlayerUi.Buttons;
 using Photon.Realtime;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
             ClearRooms();
             foreach (var room in rooms)
             {
-                var newButton = Instantiate(Core.UiConfig.RoomButton, roomButtonsParent, true);
+                var newButton = Instantiate(CurrentConfigs.UiConfig.RoomButton, roomButtonsParent, true);
                 newButton.transform.localScale = Vector3.one;
                 newButton.SetRoomName(room.Name, room.PlayerCount, room.MaxPlayers);
                 roomButtons.Add(newButton);

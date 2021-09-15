@@ -2,9 +2,9 @@
 using Master.QSpaceCode.PlayerUi.Buttons;
 using UnityEngine;
 
-namespace Master.QSpaceCode.Configs.GameConfigs
+namespace Master.QSpaceCode.Configs.Game
 {
-    [CreateAssetMenu(fileName = "UI Config", menuName = "Game Configs/UI Config", order = 0)]
+    [CreateAssetMenu(fileName = "UIConfig", menuName = "Game Configs/UI Config", order = 0)]
     public sealed class UiConfig : ScriptableObject
     {
         [SerializeField] private RoomButton roomButton;

@@ -1,6 +1,6 @@
 ﻿namespace Master.QSpaceCode.Game.Ships.Shells
 {
-    public sealed class FalconShell : ShipShell
+    public sealed class StingrayShell : ShipShell
     {
         
     }

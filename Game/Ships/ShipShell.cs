@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Master.QSpaceCode.Configs.ShipsConfigs;
+using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Configs.Ships;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game.Ships
@@ -11,30 +12,45 @@ namespace Master.QSpaceCode.Game.Ships
         [SerializeField] private Transform[] rightJets;
         [SerializeField] private Transform[] forwardJets;
 
-        public float BaseHealth => shipShellConfig.BaseHealth;
-        public float MarchSpeed => shipShellConfig.MarchSpeed;
-        public float MoveSpeed => shipShellConfig.MoveSpeed;
-        public float RotateSpeed => shipShellConfig.RotateSpeed;
-        public float MarchPowerSpend => shipShellConfig.MarchPowerSpend;
-        public float MovePowerSpend => shipShellConfig.MovePowerSpend;
-
-        public float RotatePowerSpend => shipShellConfig.RotatePowerSpend;
-
-        private readonly Dictionary<Transform, Vector3> jetsStartScale = 
-            new Dictionary<Transform, Vector3>();
-
+        private readonly Dictionary<Transform, Vector3> jetsStartScale = new Dictionary<Transform, Vector3>();
+        
         private ShipShellConfig shipShellConfig;
 
+        public void GetMoveSpeed(int characteristic, out float speed, out float powerSpend)
+        {
+            var config = CurrentConfigs.ShipsConfig;
+            var mod = config .ChangeSpeedPerStep * (characteristic - 6);
+            speed = (config .BaseSpeed + mod) * shipShellConfig.MoveSpeedMod;
+            powerSpend = config .BaseMoveCost * shipShellConfig.MovePowerSpendMod;
+        }
+
+        public void GetMarchSpeed(int characteristic, out float speed, out float powerSpend)
+        {
+            var config = CurrentConfigs.ShipsConfig;
+            var mod = config.ChangeSpeedPerStep * (characteristic - 6);
+            speed = (config.BaseSpeed + mod) * shipShellConfig.MarchSpeedMod;
+            powerSpend = config.BaseMoveCost * shipShellConfig.MarchPowerSpendMod;
+        }
+
+        public void GetRotateSpeed(int characteristic, out float speed, out float powerSpend)
+        {
+            var config = CurrentConfigs.ShipsConfig;
+            var mod = config.ChangeSpeedPerStep * (characteristic - 6);
+            speed = (config.BaseSpeed + mod) * shipShellConfig.RotateSpeedMod;
+            powerSpend = config.BaseMoveCost * shipShellConfig.RotatePowerSpendMod;
+        }
+        
         public virtual void LoadConfig(ShipShellConfig newConfig)
         {
             shipShellConfig = newConfig;
+            jetsStartScale.Clear();
             foreach (var jet in marchJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in leftJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in rightJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in forwardJets) jetsStartScale.Add(jet, jet.localScale);
         }
 
-        public virtual void UpdateJets(Vector2 moveVector)
+        public void UpdateJets(Vector2 moveVector)
         {
             if (moveVector.x > 0)
             {

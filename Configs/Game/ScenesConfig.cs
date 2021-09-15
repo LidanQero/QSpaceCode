@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Master.QSpaceCode.Configs.GameConfigs
+namespace Master.QSpaceCode.Configs.Game
 {
-    [CreateAssetMenu(fileName = "Scenes Config", menuName = "Game Configs/Scenes Config", order = 0)]
+    [CreateAssetMenu(fileName = "ScenesConfig", menuName = "Game Configs/Scenes Config", order = 0)]
     public sealed class ScenesConfig : ScriptableObject
     {
         [SerializeField] private string menuSceneName;

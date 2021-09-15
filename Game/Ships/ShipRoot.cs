@@ -1,4 +1,4 @@
-﻿using Master.QSpaceCode.Configs.ShipsConfigs;
+﻿using Master.QSpaceCode.Configs.Ships;
 using Photon.Pun;
 using UnityEngine;
 
@@ -11,6 +11,10 @@ namespace Master.QSpaceCode.Game.Ships
         private ShipGenerator generator;
         
         private CharacterController characterController;
+        
+        private int speedCharacteristic;
+        private int energyLimitCharacteristic;
+        private int energyRegenCharacteristic;
 
         protected override void Awake()
         {
@@ -20,27 +24,37 @@ namespace Master.QSpaceCode.Game.Ships
 
         private void Update()
         {
-            if (!shell) return;
             if (!PhotonView.IsMine) return;
+            if (!shell) return;
             Move(Core.UiInputKeeper.MoveVector);
             Rotation(Core.UiInputKeeper.Rotation);
+            generator.Update();
         }
 
         private void Move(Vector2 inputVector)
         {
             var energyCost = 0f;
             
-            energyCost += Mathf.Abs(inputVector.x) * shell.MovePowerSpend * Time.deltaTime;
-            if (inputVector.y > 0) energyCost += inputVector.y * shell.MarchPowerSpend * Time.deltaTime;
-            else energyCost += Mathf.Abs(inputVector.y) * shell.MovePowerSpend * Time.deltaTime;
+            shell.GetMoveSpeed(speedCharacteristic, out var moveSpeed, out var moveCost);
+            shell.GetMarchSpeed(speedCharacteristic, out var marchSpeed, out var marchCost);
 
-            if (!generator.CanSpendEnergy(energyCost)) inputVector = Vector2.zero;
-            else generator.ChangeEnergy(-energyCost);
+            moveSpeed *= Time.deltaTime;
+            moveCost *= Time.deltaTime;
+            marchSpeed *= Time.deltaTime;
+            marchCost *= Time.deltaTime;
             
+            energyCost += Mathf.Abs(inputVector.x) * moveCost;
+            if (inputVector.y > 0) energyCost += inputVector.y * marchCost;
+            else energyCost += Mathf.Abs(inputVector.y) * moveCost;
+
+            generator.SpendEnergy(energyCost, out var canSpend);
+            if (!canSpend) inputVector = Vector2.zero;
+
             var targetMove = new Vector3();
-            targetMove += Transform.right * inputVector.x * shell.MoveSpeed * Time.deltaTime;
-            targetMove += Transform.forward * inputVector.y * shell.MarchSpeed * Time.deltaTime;
-            
+            targetMove += Transform.right * inputVector.x * moveSpeed;
+            if (inputVector.y > 0) targetMove += Transform.forward * inputVector.y * marchSpeed;
+            else targetMove += Transform.forward * inputVector.y * moveSpeed;
+
             characterController.Move(targetMove);
             PhotonView.RPC(nameof(SynchronizeJets), RpcTarget.All, inputVector);
         }
@@ -48,8 +62,17 @@ namespace Master.QSpaceCode.Game.Ships
         private void Rotation(float input)
         {
             if (input == 0) return;
+            
+            shell.GetRotateSpeed(speedCharacteristic, out var speed, out var cost);
+
+            speed *= Time.deltaTime;
+            cost *= Time.deltaTime;
+
+            generator.SpendEnergy(cost, out var canSpend);
+            if (!canSpend) input = 0;
+            
             var rotation = Transform.rotation;
-            var angle = input * Time.deltaTime * shell.RotateSpeed;
+            var angle = input * speed;
             rotation *= Quaternion.AngleAxis(angle, Vector3.up);
             Transform.rotation = rotation;
         }
@@ -58,17 +81,19 @@ namespace Master.QSpaceCode.Game.Ships
         public void LoadConfig(string config)
         {
             if (shell) Destroy(shell.gameObject);
-            if (generator) Destroy(generator.gameObject);
             
             var newConfig = JsonUtility.FromJson<ShipConfig>(config);
-
             var newShellConfig = Resources.Load<ShipShellConfig>($"Shells/{newConfig.shell}");
             shell = Instantiate(newShellConfig.ShellPrefab, Transform);
             shell.LoadConfig(newShellConfig);
-
-            var newGeneratorConfig = Resources.Load<ShipGeneratorConfig>($"Generators/{newConfig.shell}");
-            generator = Instantiate(newGeneratorConfig.GeneratorPrefab, Transform);
-            generator.LoadConfig(newGeneratorConfig);
+            
+            speedCharacteristic = newShellConfig.SpeedCharacteristic;
+            energyLimitCharacteristic = newShellConfig.EnergyRegenCharacteristic;
+            energyRegenCharacteristic = newShellConfig.EnergyRegenCharacteristic;
+            
+            generator = new ShipGenerator();
+            generator.SetCharacteristics(energyLimitCharacteristic, energyRegenCharacteristic);
+            generator.Reset();
         }
 
         [PunRPC]

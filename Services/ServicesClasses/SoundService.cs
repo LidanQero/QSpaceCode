@@ -1,4 +1,5 @@
-﻿using Master.QSpaceCode.Services.Mediator;
+﻿using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesInterfaces;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             Object.DontDestroyOnLoad(uiAudioSource.gameObject);
             uiAudioSource.loop = false;
             uiAudioSource.ignoreListenerPause = true;
-            uiAudioSource.outputAudioMixerGroup = Core.AudioConfig.UIMixer;
+            uiAudioSource.outputAudioMixerGroup = CurrentConfigs.AudioConfig.UIMixer;
             uiAudioSource.spatialize = false;
             uiAudioSource.spatialBlend = 0;
 
@@ -29,7 +30,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             Object.DontDestroyOnLoad(musicAudioSource.gameObject);
             musicAudioSource.loop = false;
             musicAudioSource.ignoreListenerPause = true;
-            musicAudioSource.outputAudioMixerGroup = Core.AudioConfig.MusicMixer;
+            musicAudioSource.outputAudioMixerGroup = CurrentConfigs.AudioConfig.MusicMixer;
             musicAudioSource.spatialize = false;
             musicAudioSource.spatialBlend = 0;
         }
@@ -38,7 +39,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
             base.Runtime();
             if (!musicAudioSource.isPlaying) 
-                PlayMusic(Core.AudioConfig.GetRandomMenuMusic());
+                PlayMusic(CurrentConfigs.AudioConfig.GetRandomMenuMusic());
         }
 
         public void PlayUiSound(AudioClip audioClip)

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DG.Tweening;
+using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Game;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesClasses.GameLogicServiceSubclasses;
@@ -102,7 +103,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void SpawnPlayer()
         {
             var players = PhotonNetwork.PlayerList.ToArray();
-            var playerShip = Core.GameplayConfig.PlayerShip;
+            var playerShip = CurrentConfigs.ShipsConfig.ShipRoot;
             var spawnPos = Vector3.forward * 150;
 
             var playerNumber = 0;
