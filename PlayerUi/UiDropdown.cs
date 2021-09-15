@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Static;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -51,7 +52,7 @@ namespace Master.QSpaceCode.PlayerUi
 
         public void OnSelect(BaseEventData eventData)
         {
-            if (Core.UIHelper.LastSelectedGameObject != gameObject)
+            if (UiSelectingController.LastSelectedGameObject != gameObject)
             {
                 Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
             }

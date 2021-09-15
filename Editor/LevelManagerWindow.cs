@@ -3,12 +3,11 @@ using System.IO;
 using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Game;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Editor
 {
-    public class LevelManagerWindow : EditorWindow
+    public sealed class LevelManagerWindow : EditorWindow
     {
         private static string levelNameToSave;
         private static string levelNameToLoad;

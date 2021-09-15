@@ -1,6 +1,5 @@
 ﻿using Master.QSpaceCode.Configs;
 using Master.QSpaceCode.Services.Mediator;
-using Master.QSpaceCode.Static;
 using UnityEngine;
 
 namespace Master.QSpaceCode
@@ -44,7 +43,7 @@ namespace Master.QSpaceCode
         private void Update()
         {
             ServicesMediator.Runtime();
-            UiSelectingController.UpdateHelper();
+            UiHelper.UpdateHelper();
         }
     }
 }

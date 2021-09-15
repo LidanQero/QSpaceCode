@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
-namespace Master.QSpaceCode
+namespace Master.QSpaceCode.Helpers
 {
     public class CameraPostProcessingRegister : MonoBehaviour
     {

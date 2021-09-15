@@ -1,4 +1,4 @@
-﻿namespace Master.QSpaceCode
+﻿namespace Master.QSpaceCode.Static
 {
     public static class StringsStorage
     {

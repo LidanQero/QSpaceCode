@@ -1,4 +1,5 @@
 ﻿using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Static;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace Master.QSpaceCode.PlayerUi
 
         public void OnSelect(BaseEventData eventData)
         {
-            if (Core.UIHelper.LastSelectedGameObject != gameObject)
+            if (UiSelectingController.LastSelectedGameObject != gameObject)
             {
                 Core.SoundsKeeper.PlayUiSound(CurrentConfigs.AudioConfig.ButtonSelected);
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Master.QSpaceCode.Services.Mediator;
 using Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasses;
 using Master.QSpaceCode.Services.ServicesInterfaces;
+using Master.QSpaceCode.Static;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;

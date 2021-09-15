@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Master.QSpaceCode.Utilities
+namespace Master.QSpaceCode.Helpers
 {
     public class CameraDynamicViewport : MonoBehaviour
     {
@@ -17,16 +17,16 @@ namespace Master.QSpaceCode.Utilities
 
         private void Update()
         {
-            float defaultAspect = defaultWidth / defaultHeight;
+            var defaultAspect = defaultWidth / defaultHeight;
             float width = Screen.width;
             float height = Screen.height;
-            float currentAspect = width / height;
-            float dif = defaultAspect / currentAspect;
-            float newPanelSize = rightPanelSize * dif;
-            float targetWidth = defaultWidth - newPanelSize;
-            float targetCamWidth = targetWidth / defaultWidth;
+            var currentAspect = width / height;
+            var dif = defaultAspect / currentAspect;
+            var newPanelSize = rightPanelSize * dif;
+            var targetWidth = defaultWidth - newPanelSize;
+            var targetCamWidth = targetWidth / defaultWidth;
 
-            Rect cameraCashRect = cameraCash.rect;
+            var cameraCashRect = cameraCash.rect;
             cameraCashRect.xMax = targetCamWidth;
             cameraCash.rect = cameraCashRect;
         }
