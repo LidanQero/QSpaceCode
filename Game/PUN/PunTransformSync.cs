@@ -1,11 +1,11 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-namespace Master.QSpaceCode.PUN
+namespace Master.QSpaceCode.Game.PUN
 {
     public class PunTransformSync : MonoBehaviourPun, IPunObservable
     {
-        private Transform transform;
+        private new Transform transform;
         
         private float distance;
         private float angle;

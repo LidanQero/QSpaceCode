@@ -2,7 +2,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-namespace Master.QSpaceCode.PUN
+namespace Master.QSpaceCode.Game.PUN
 {
     public class PunShipsJetsSync : MonoBehaviourPun, IPunObservable
     {
