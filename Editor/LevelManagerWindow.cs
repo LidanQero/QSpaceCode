@@ -76,6 +76,7 @@ namespace Master.QSpaceCode.Editor
                     {
                         levelObjectsDB.names.Add(prefabName);
                         levelObjectsDB.prefabs.Add(prefab);
+                        EditorUtility.SetDirty(levelObjectsDB);
                     }
 
                     levelContainer.prefabsNames[id] = prefabName;
