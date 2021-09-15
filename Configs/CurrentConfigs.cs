@@ -15,30 +15,30 @@ namespace Master.QSpaceCode.Configs
 
         public static void LoadConfigs()
         {
-            scenesConfig = Resources.Load<ScenesConfig>("Configs/ScenesConfig");
-            audioConfig = Resources.Load<AudioConfig>("Configs/AudioConfig");
-            uiConfig = Resources.Load<UiConfig>("Configs/UiConfig");
-            gameplayConfig = Resources.Load<GameplayConfig>("Configs/GameplayConfig");
-            levelsConfig = Resources.Load<LevelsConfig>("Configs/LevelsConfig");
-            shipsConfig = Resources.Load<ShipsConfig>("Configs/ShipsConfig");
+            scenesConfig = Resources.Load<ScenesConfig>("GameConfigs/ScenesConfig");
+            audioConfig = Resources.Load<AudioConfig>("GameConfigs/AudioConfig");
+            uiConfig = Resources.Load<UiConfig>("GameConfigs/UiConfig");
+            gameplayConfig = Resources.Load<GameplayConfig>("GameConfigs/GameplayConfig");
+            levelsConfig = Resources.Load<LevelsConfig>("GameConfigs/LevelsConfig");
+            shipsConfig = Resources.Load<ShipsConfig>("GameConfigs/ShipsConfig");
         }
         
         public static ScenesConfig ScenesConfig =>
-            scenesConfig ? scenesConfig : Resources.Load<ScenesConfig>("Configs/ScenesConfig");
+            scenesConfig ? scenesConfig : Resources.Load<ScenesConfig>("GameConfigs/ScenesConfig");
 
         public static AudioConfig AudioConfig => 
-            audioConfig ? audioConfig : Resources.Load<AudioConfig>("Configs/AudioConfig");
+            audioConfig ? audioConfig : Resources.Load<AudioConfig>("GameConfigs/AudioConfig");
 
         public static UiConfig UiConfig => 
-            uiConfig ? uiConfig : Resources.Load<UiConfig>("Configs/UiConfig");
+            uiConfig ? uiConfig : Resources.Load<UiConfig>("GameConfigs/UiConfig");
 
         public static GameplayConfig GameplayConfig =>
-            gameplayConfig ? gameplayConfig : Resources.Load<GameplayConfig>("Configs/GameplayConfig");
+            gameplayConfig ? gameplayConfig : Resources.Load<GameplayConfig>("GameConfigs/GameplayConfig");
 
         public static LevelsConfig LevelsConfig =>
-            levelsConfig ? levelsConfig : Resources.Load<LevelsConfig>("Configs/LevelsConfig");
+            levelsConfig ? levelsConfig : Resources.Load<LevelsConfig>("GameConfigs/LevelsConfig");
 
         public static ShipsConfig ShipsConfig => 
-            shipsConfig ? shipsConfig : Resources.Load<ShipsConfig>("Configs/ShipsConfig");
+            shipsConfig ? shipsConfig : Resources.Load<ShipsConfig>("GameConfigs/ShipsConfig");
     }
 }

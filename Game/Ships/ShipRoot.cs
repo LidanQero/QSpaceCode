@@ -89,12 +89,12 @@ namespace Master.QSpaceCode.Game.Ships
         }
 
         [PunRPC]
-        public void LoadConfig(string config)
+        public void LoadConfig(string shipContainer)
         {
             if (shell) Destroy(shell.gameObject);
             
-            var newConfig = JsonUtility.FromJson<ShipConfig>(config);
-            var newShellConfig = Resources.Load<ShipShellConfig>($"Shells/{newConfig.shell}");
+            var newContainer = JsonUtility.FromJson<ShipContainer>(shipContainer);
+            var newShellConfig = Resources.Load<ShipShellConfig>($"Shells/{newContainer.shell}");
             shell = Instantiate(newShellConfig.ShellPrefab, Transform);
             shell.LoadConfig(newShellConfig);
             

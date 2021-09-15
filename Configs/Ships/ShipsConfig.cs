@@ -7,7 +7,7 @@ namespace Master.QSpaceCode.Configs.Ships
     public class ShipsConfig : ScriptableObject
     {
         [SerializeField] private ShipRoot shipRoot;
-        [Space] [SerializeField] private ShipConfig testShipConfig;
+        [Space] [SerializeField] private ShipContainer testShipConfig;
         [Space] [SerializeField] private float baseSpeed;
         [SerializeField] private float baseMoveCost;
         [SerializeField] private float changeSpeedPerStep;
