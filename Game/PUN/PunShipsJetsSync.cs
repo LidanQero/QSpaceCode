@@ -41,8 +41,8 @@ namespace Master.QSpaceCode.Game.PUN
             }
             else
             {
-                stream.SendNext(shipRoot.inputMove);
-                stream.SendNext(shipRoot.inputRotation);
+                stream.SendNext(shipRoot.InputMove);
+                stream.SendNext(shipRoot.InputRotation);
             }
         }
     }

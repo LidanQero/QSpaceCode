@@ -2,6 +2,6 @@
 {
     public interface IGameInfoService
     {
-        void GenerateNewLogin();
+        public void GenerateNewLogin();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Master.QSpaceCode.Game;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Master.QSpaceCode
 {
@@ -28,5 +27,22 @@ namespace Master.QSpaceCode
         public Vector3 position;
         public Quaternion rotation;
         public Vector3 scale;
+    }
+
+    public struct PlayerCharacteristicModifiers
+    {
+        public int weaponMod;
+        public int modulesMod;
+        public int healthMod;
+        public int speedMod;
+        public int maxEnergyMod;
+        public int energyRegMod;
+
+        public int weaponUpgrade;
+        public int modulesUpgrade;
+        public int healthUpgrade;
+        public int speedUpgrade;
+        public int maxEnUpgrade;
+        public int enRegUpgrade;
     }
 }

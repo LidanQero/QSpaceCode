@@ -1,10 +1,13 @@
-﻿using Master.QSpaceCode.Game.Ships;
+﻿using System;
+using Master.QSpaceCode.Game.Ships;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Configs.Ships
 {
     public abstract class ShipShellConfig : ScriptableObject
     {
+        public event Action OnConfigChanged;
+        
         [SerializeField] private ShipShell shellPrefab;
         [Space][SerializeField] private int weaponCharacteristic;
         [SerializeField] private int modulesCharacteristic;
@@ -36,7 +39,7 @@ namespace Master.QSpaceCode.Configs.Ships
 
         protected virtual void OnValidate()
         {
-            
+            OnConfigChanged?.Invoke();
         }
     }
 }

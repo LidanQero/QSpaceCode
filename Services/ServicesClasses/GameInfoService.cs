@@ -24,14 +24,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private readonly string[] playerNamesParts2 =
             {"Dragon", "Falcon", "Knight", "Killer", "Ranger", "Death", "Raven", "Warrior"};
 
-
-        public override void InitOnAwake()
-        {
-            base.InitOnAwake();
-            PhotonNetwork.AddCallbackTarget(this);
-            GenerateNewLogin();
-        }
-
+        public event Action OnUpdateCharacteristics;
         public event Action<string> OnUpdateLogin;
         public event Action<List<Player>> OnPlayersUpdate;
         public event Action<List<RoomInfo>> OnRoomUpdate;
@@ -41,80 +34,22 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public List<RoomInfo> Rooms { get; } = new List<RoomInfo>();
         public List<Player> Players { get; } = new List<Player>();
 
+        public override void InitOnAwake()
+        {
+            base.InitOnAwake();
+            PhotonNetwork.AddCallbackTarget(this);
+            GenerateNewLogin();
+        }
+        
+        public PlayerCharacteristicModifiers GetPlayerCharacteristicModifiers(Player player)
+        {
+            return new PlayerCharacteristicModifiers();
+        }
+        
         public void GenerateNewLogin()
         {
             CurrentLogin = CreateRandomLogin();
             OnUpdateLogin?.Invoke(CurrentLogin);
-        }
-
-        public void OnJoinedLobby()
-        {
-            UpdatePlayersCash();
-        }
-
-        public void OnLeftLobby()
-        {
-        }
-
-        public void OnRoomListUpdate(List<RoomInfo> roomList)
-        {
-            UpdateRoomCash(roomList);
-        }
-
-        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
-        {
-        }
-
-        public void OnPlayerEnteredRoom(Player newPlayer)
-        {
-            UpdatePlayersCash();
-        }
-
-        public void OnPlayerLeftRoom(Player otherPlayer)
-        {
-            UpdatePlayersCash();
-        }
-
-        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
-        {
-        }
-
-        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-        {
-        }
-
-        public void OnMasterClientSwitched(Player newMasterClient)
-        {
-            UpdatePlayersCash();
-        }
-
-        public void OnFriendListUpdate(List<FriendInfo> friendList)
-        {
-        }
-
-        public void OnCreatedRoom()
-        {
-        }
-
-        public void OnCreateRoomFailed(short returnCode, string message)
-        {
-        }
-
-        public void OnJoinedRoom()
-        {
-            UpdatePlayersCash();
-        }
-
-        public void OnJoinRoomFailed(short returnCode, string message)
-        {
-        }
-
-        public void OnJoinRandomFailed(short returnCode, string message)
-        {
-        }
-
-        public void OnLeftRoom()
-        {
         }
 
         private void UpdateRoomCash(List<RoomInfo> roomList)
@@ -142,5 +77,59 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             var r3 = Random.Range(0, 60);
             return $"{playerNamesParts1[r1]} {playerNamesParts2[r2]} {StringsStorage.GetTimeString(r3)}";
         }
+
+        #region PunCallbacks
+
+        public void OnJoinedLobby()
+        {
+            UpdatePlayersCash();
+        }
+
+        public void OnLeftLobby() { }
+
+        public void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            UpdateRoomCash(roomList);
+        }
+
+        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics) { }
+
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            UpdatePlayersCash();
+        }
+
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            UpdatePlayersCash();
+        }
+
+        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) { }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps) { }
+
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            UpdatePlayersCash();
+        }
+
+        public void OnFriendListUpdate(List<FriendInfo> friendList) { }
+
+        public void OnCreatedRoom() { }
+
+        public void OnCreateRoomFailed(short returnCode, string message) { }
+
+        public void OnJoinedRoom()
+        {
+            UpdatePlayersCash();
+        }
+
+        public void OnJoinRoomFailed(short returnCode, string message) { }
+
+        public void OnJoinRandomFailed(short returnCode, string message) { }
+
+        public void OnLeftRoom() { }
+        
+        #endregion
     }
 }

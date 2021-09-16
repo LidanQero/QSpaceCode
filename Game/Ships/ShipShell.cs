@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Master.QSpaceCode.Configs;
-using Master.QSpaceCode.Configs.Ships;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game.Ships
@@ -15,37 +13,9 @@ namespace Master.QSpaceCode.Game.Ships
         [SerializeField] private Transform[] jets4;
 
         private readonly Dictionary<Transform, Vector3> jetsStartScale = new Dictionary<Transform, Vector3>();
-        
-        private ShipShellConfig shipShellConfig;
 
-        public void GetMoveSpeed(int characteristic, out float speed, out float powerSpend)
+        private void Awake()
         {
-            var config = CurrentConfigs.ShipsConfig;
-            var mod = config .ChangeSpeedPerStep * (characteristic - 6);
-            speed = (config .BaseSpeed + mod) * shipShellConfig.MoveSpeedMod;
-            powerSpend = config .BaseMoveCost * shipShellConfig.MovePowerSpendMod;
-        }
-
-        public void GetMarchSpeed(int characteristic, out float speed, out float powerSpend)
-        {
-            var config = CurrentConfigs.ShipsConfig;
-            var mod = config.ChangeSpeedPerStep * (characteristic - 6);
-            speed = (config.BaseSpeed + mod) * shipShellConfig.MarchSpeedMod;
-            powerSpend = config.BaseMoveCost * shipShellConfig.MarchPowerSpendMod;
-        }
-
-        public void GetRotateSpeed(int characteristic, out float speed, out float powerSpend)
-        {
-            var config = CurrentConfigs.ShipsConfig;
-            var mod = config.ChangeSpeedPerStep * (characteristic - 6);
-            speed = (config.BaseSpeed + mod) * shipShellConfig.RotateSpeedMod;
-            powerSpend = config.BaseMoveCost * shipShellConfig.RotatePowerSpendMod;
-        }
-        
-        public virtual void LoadConfig(ShipShellConfig newConfig)
-        {
-            shipShellConfig = newConfig;
-            jetsStartScale.Clear();
             foreach (var jet in marchJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in forwardJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets1) jetsStartScale.Add(jet, jet.localScale);

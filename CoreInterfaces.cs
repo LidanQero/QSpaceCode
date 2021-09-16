@@ -13,11 +13,13 @@ namespace Master.QSpaceCode
         event Action<string> OnUpdateLogin; 
         event Action<List<Player>> OnPlayersUpdate;
         event Action<List<RoomInfo>> OnRoomUpdate;
+        event Action OnUpdateCharacteristics;
 
         string CurrentLogin { get; }
         string RoomName { get; }
         public List<RoomInfo> Rooms { get; }
         public List<Player> Players { get; }
+        PlayerCharacteristicModifiers GetPlayerCharacteristicModifiers(Player player);
     }
 
     public interface ISettingsKeeper
