@@ -24,4 +24,14 @@
     {
         Keyboard, Xbox, PS
     }
+
+    public enum LevelType
+    {
+        Arena, Boss
+    }
+
+    public enum LevelSector
+    {
+        Sector1, Sector2, Sector3, Sector4, Sector5
+    }
 }
