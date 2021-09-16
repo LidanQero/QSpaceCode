@@ -9,13 +9,17 @@ namespace Master.QSpaceCode.Game.Ships
     {
         public Vector2 inputMove { get; private set; }
         public float inputRotation { get; private set; }
-        
+
+        private ShipShellConfig shellConfig;
         private ShipShell shell;
         private ShipGenerator generator;
         
         private CharacterController characterController;
         
+        private int weaponCharacteristic;
+        private int modulesCharacteristic;
         private int speedCharacteristic;
+        private int healthCharacteristic;
         private int energyLimitCharacteristic;
         private int energyRegenCharacteristic;
 
@@ -94,13 +98,16 @@ namespace Master.QSpaceCode.Game.Ships
             if (shell) Destroy(shell.gameObject);
             
             var newContainer = JsonUtility.FromJson<ShipContainer>(shipContainer);
-            var newShellConfig = Resources.Load<ShipShellConfig>($"Shells/{newContainer.shell}");
-            shell = Instantiate(newShellConfig.ShellPrefab, Transform);
-            shell.LoadConfig(newShellConfig);
-            
-            speedCharacteristic = newShellConfig.SpeedCharacteristic;
-            energyLimitCharacteristic = newShellConfig.EnergyRegenCharacteristic;
-            energyRegenCharacteristic = newShellConfig.EnergyRegenCharacteristic;
+            shellConfig = Resources.Load<ShipShellConfig>($"Shells/{newContainer.shell}");
+            shell = Instantiate(shellConfig.ShellPrefab, Transform);
+            shell.LoadConfig(shellConfig);
+
+            weaponCharacteristic = shellConfig.WeaponCharacteristic;
+            modulesCharacteristic = shellConfig.ModulesCharacteristic;
+            healthCharacteristic = shellConfig.HealthCharacteristic;
+            speedCharacteristic = shellConfig.SpeedCharacteristic;
+            energyLimitCharacteristic = shellConfig.EnergyRegenCharacteristic;
+            energyRegenCharacteristic = shellConfig.EnergyRegenCharacteristic;
             
             generator = new ShipGenerator();
             generator.SetCharacteristics(energyLimitCharacteristic, energyRegenCharacteristic);

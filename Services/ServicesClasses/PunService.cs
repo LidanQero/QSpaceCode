@@ -1,93 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Master.QSpaceCode.Services.Mediator;
-using Master.QSpaceCode.Services.ServicesClasses.PunCallbackServiceSubclasses;
 using Master.QSpaceCode.Services.ServicesInterfaces;
-using Master.QSpaceCode.Static;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
-    public sealed class PunService : Service, IPunService, IPunInfoKeeper
+    public sealed class PunService : Service, IPunService, IConnectionCallbacks, IMatchmakingCallbacks,
+        IInRoomCallbacks, ILobbyCallbacks, IWebRpcCallback, IErrorInfoCallback
     {
         public PunService(ServicesMediator newServicesMediator) : base(newServicesMediator)
         {
         }
 
-        public event Action<string> UpdateLoginEvent;
-        public event Action<List<Player>> PlayersUpdateEvent;
-        public event Action<List<RoomInfo>> RoomsUpdateEvent;
-
-        private PunCallbacksSender punCallbacksSender;
-
-        private string currentLogin;
-
-        private readonly string[] playerNamesParts1 =
-            {"Blood", "Sky", "Emerald", "Gold", "Night", "Sun", "Abyss", "Phantom"};
-
-        private readonly string[] playerNamesParts2 =
-            {"Dragon", "Falcon", "Knight", "Killer", "Ranger", "Death", "Raven", "Warrior"};
-
-        private PunState punState;
-
+        private bool wantToCreateRoom;
+        private int wantMaxPlayersInRoom;
+        
         public override void InitOnAwake()
         {
             base.InitOnAwake();
-
-            punCallbacksSender = new GameObject("PunCallbackSender")
-                .AddComponent<PunCallbacksSender>();
-            punCallbacksSender.SetMediator(servicesMediator);
-            Object.DontDestroyOnLoad(punCallbacksSender.gameObject);
-
-            punCallbacksSender.PlayersUpdateEvent += delegate(List<Player> list)
-            {
-                PlayersUpdateEvent?.Invoke(list);
-            };
-            punCallbacksSender.RoomUpdateEvent += delegate(List<RoomInfo> list)
-            {
-                RoomsUpdateEvent?.Invoke(list);
-            };
-
-            ChangePunState(PunState.Login);
-
-            GenerateNewLogin();
-        }
-
-        public string GetCurrentLogin() => currentLogin;
-        public string GetRoomName()
-        {
-            if (punCallbacksSender) return punCallbacksSender.GetRoomName();
-            return string.Empty;
-        }
-        
-        public void GenerateNewLogin()
-        {
-            currentLogin = CreateRandomLogin();
-            UpdateLoginEvent?.Invoke(currentLogin);
+            PhotonNetwork.AddCallbackTarget(this);
+            servicesMediator.UpdatePunState(PunState.Login);
         }
 
         public void ConnectToLobby()
         {
-            PhotonNetwork.LocalPlayer.NickName = currentLogin;
+            PhotonNetwork.LocalPlayer.NickName = Core.GameInfoKeeper.CurrentLogin;
             PhotonNetwork.ConnectUsingSettings();
-            ChangePunState(PunState.Other);
+            servicesMediator.UpdatePunState(PunState.Other);
         }
 
-        public void CreateWantedRoom() => punCallbacksSender.CreateWantedRoom();
+        public void CreateWantedRoom()
+        {
+            wantToCreateRoom = true;
+            PhotonNetwork.LeaveLobby();
+        }
 
-        public void SetWantedRoomPlayersCount(int count) =>
-            punCallbacksSender.SetWantedRoomPlayersCount(count);
+        public void SetWantedRoomPlayersCount(int count)
+        {
+            wantMaxPlayersInRoom = count;
+        }
 
-        public void ConnectToRoom(string roomName) =>
-            punCallbacksSender.ConnectToRoom(roomName);
+        public void ConnectToRoom(string roomName)
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            PhotonNetwork.JoinRoom(roomName);
+        }
 
         public void Disconnect()
         {
-            punCallbacksSender.Disconnect();
+            PhotonNetwork.Disconnect();
         }
 
         public void ExitFromRoom()
@@ -102,37 +65,155 @@ namespace Master.QSpaceCode.Services.ServicesClasses
             {
                 PhotonNetwork.OfflineMode = true;
             }
+
             if (!PhotonNetwork.InRoom)
             {
                 PhotonNetwork.CreateRoom("Offline room");
             }
         }
 
-        public List<RoomInfo> GetRooms()
+        public void OnConnected()
         {
-            if (punCallbacksSender) return punCallbacksSender.GetRooms();
-            return new List<RoomInfo>();
+
         }
 
-        public List<Player> GetPlayers()
+        public void OnConnectedToMaster()
         {
-            if (punCallbacksSender) return punCallbacksSender.GetPlayers();
-            return new List<Player>();
+            servicesMediator.UpdatePunState(PunState.Other);
+            if (!PhotonNetwork.OfflineMode) PhotonNetwork.JoinLobby();
         }
 
-        private string CreateRandomLogin()
+        public void OnDisconnected(DisconnectCause cause)
         {
-            int r1 = Random.Range(0, playerNamesParts1.Length);
-            int r2 = Random.Range(0, playerNamesParts2.Length);
-            int r3 = Random.Range(0, 60);
-            return
-                $"{playerNamesParts1[r1]} {playerNamesParts2[r2]} {StringsStorage.GetTimeString(r3)}";
+            if (cause == DisconnectCause.DisconnectByClientLogic ||
+                cause == DisconnectCause.None)
+            {
+                servicesMediator.UpdatePunState(PunState.Login);
+            }
+            else
+            {
+                servicesMediator.UpdatePunState(PunState.Other);
+                PhotonNetwork.ReconnectAndRejoin();
+            }
         }
 
-        private void ChangePunState(PunState newState)
+        public void OnRegionListReceived(RegionHandler regionHandler)
         {
-            punState = newState;
-            servicesMediator.UpdatePunState(newState);
+
+        }
+
+        public void OnCustomAuthenticationResponse(Dictionary<string, object> data)
+        {
+
+        }
+
+        public void OnCustomAuthenticationFailed(string debugMessage)
+        {
+
+        }
+
+        public void OnFriendListUpdate(List<FriendInfo> friendList)
+        {
+
+        }
+
+        public void OnCreatedRoom()
+        {
+            servicesMediator.UpdatePunState(PunState.ConnectedToRoom);
+        }
+
+        public void OnCreateRoomFailed(short returnCode, string message)
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            PhotonNetwork.JoinLobby();
+        }
+
+        public void OnJoinedRoom()
+        {
+            servicesMediator.UpdatePunState(PunState.ConnectedToRoom);
+        }
+
+        public void OnJoinRoomFailed(short returnCode, string message)
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            PhotonNetwork.JoinLobby();
+        }
+
+        public void OnJoinRandomFailed(short returnCode, string message)
+        {
+
+        }
+
+        public void OnLeftRoom()
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+        }
+
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            
+        }
+
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            
+        }
+
+        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            
+        }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            
+        }
+
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            
+        }
+
+        public void OnJoinedLobby()
+        {
+            servicesMediator.UpdatePunState(PunState.ConnectedToLobby);
+        }
+
+        public void OnLeftLobby()
+        {
+            servicesMediator.UpdatePunState(PunState.Other);
+            if (wantToCreateRoom)
+            {
+                wantToCreateRoom = false;
+                var options = new RoomOptions
+                {
+                    MaxPlayers = (byte) wantMaxPlayersInRoom,
+                    IsOpen = true,
+                    IsVisible = true
+                };
+                PhotonNetwork.CreateRoom(Core.GameInfoKeeper.CurrentLogin, options);
+            }
+            else Disconnect();
+        }
+
+        public void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            
+        }
+
+        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+        {
+
+        }
+
+        public void OnWebRpcResponse(OperationResponse response)
+        {
+
+        }
+
+        public void OnErrorInfo(ErrorInfo errorInfo)
+        {
+
         }
     }
 }

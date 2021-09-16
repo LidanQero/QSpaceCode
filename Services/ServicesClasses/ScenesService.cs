@@ -10,7 +10,7 @@ using WebSocketSharp;
 
 namespace Master.QSpaceCode.Services.ServicesClasses
 {
-    public sealed class ScenesService : Service, IScenesService
+    public sealed class ScenesService : Service, IScenesService, IInRoomCallbacks
     {
         public ScenesService(ServicesMediator newServicesMediator) : base(newServicesMediator)
         {
@@ -22,6 +22,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public override void InitOnAwake()
         {
             base.InitOnAwake();
+            PhotonNetwork.AddCallbackTarget(this);
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 
@@ -43,7 +44,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                 SceneManager.LoadSceneAsync(CurrentConfigs.ScenesConfig.LoadingSceneName);
         }
 
-        public void TestLoadingScenesForPun(Player targetPlayer, Hashtable changedProps)
+        private void TestLoadingScenesForPun(Player targetPlayer, Hashtable changedProps)
         {
             if (!changedProps.ContainsKey("PlayerLoadedScene")) return;
             var loadedInfos = new List<string>();
@@ -123,6 +124,31 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private bool IsOnline()
         {
             return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
+        }
+
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            
+        }
+
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            
+        }
+
+        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            
+        }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            TestLoadingScenesForPun(targetPlayer, changedProps);
+        }
+
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            
         }
     }
 }

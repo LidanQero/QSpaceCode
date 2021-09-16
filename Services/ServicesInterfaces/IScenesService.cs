@@ -7,6 +7,5 @@ namespace Master.QSpaceCode.Services.ServicesInterfaces
     {
         void LoadGameScene();
         void LoadMenuScene();
-        void TestLoadingScenesForPun(Player targetPlayer, Hashtable changedProps);
     }
 }

@@ -21,9 +21,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         public Vector2 MoveVector { get; private set; }
         public float Rotation { get; private set; }
 
-        public event Action<SystemInputMap> ChangeSystemInputMapEvent;
-        public event Action InputCancelEvent;
-        public event Action InputPauseEvent;
+        public event Action<SystemInputMap> OnChangeSystemInputMap;
+        public event Action OnInputCancel;
+        public event Action OnInputPause;
 
         private SystemInputMap currentSystemInputMap;
         private DefaultInputActions defaultInputActions;
@@ -47,30 +47,30 @@ namespace Master.QSpaceCode.Services.ServicesClasses
                     }
                 }
 
-                InputCancelEvent?.Invoke();
+                OnInputCancel?.Invoke();
             };
             defaultInputActions.UI.Menu.performed += delegate
             {
                 if (Core.UiStateKeeper.GetGameMenuState() != GameMenuState.Main) return;
-                InputPauseEvent?.Invoke();
+                OnInputPause?.Invoke();
             };
             defaultInputActions.SystemMap.MouseActive.performed += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Keyboard) return;
                 currentSystemInputMap = SystemInputMap.Keyboard;
-                ChangeSystemInputMapEvent?.Invoke(currentSystemInputMap);
+                OnChangeSystemInputMap?.Invoke(currentSystemInputMap);
             };
             defaultInputActions.SystemMap.KeyboardActive.started += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Keyboard) return;
                 currentSystemInputMap = SystemInputMap.Keyboard;
-                ChangeSystemInputMapEvent?.Invoke(currentSystemInputMap);
+                OnChangeSystemInputMap?.Invoke(currentSystemInputMap);
             };
             defaultInputActions.SystemMap.XboxActive.started += delegate
             {
                 if (currentSystemInputMap == SystemInputMap.Xbox) return;
                 currentSystemInputMap = SystemInputMap.Xbox;
-                ChangeSystemInputMapEvent?.Invoke(currentSystemInputMap);
+                OnChangeSystemInputMap?.Invoke(currentSystemInputMap);
             };
 
             gameInputActions = new GameInputActions();

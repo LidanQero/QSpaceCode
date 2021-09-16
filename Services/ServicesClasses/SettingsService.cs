@@ -17,7 +17,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
         }
 
-        public event Action ChangeLocalizationEvent;
+        public event Action OnChangeLocalization;
 
         private PlayerPrefsStorage playerPrefsStorage = new PlayerPrefsStorage();
 
@@ -234,7 +234,7 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void ChangeLanguage(string value)
         {
             LocalizationManager.Language = value;
-            ChangeLocalizationEvent?.Invoke();
+            OnChangeLocalization?.Invoke();
         }
 
         public void SetMusicVolume(float volume)

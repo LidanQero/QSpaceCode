@@ -10,12 +10,19 @@ namespace Master.QSpaceCode
 {
     public interface IGameInfoKeeper
     {
-        
+        event Action<string> OnUpdateLogin; 
+        event Action<List<Player>> OnPlayersUpdate;
+        event Action<List<RoomInfo>> OnRoomUpdate;
+
+        string CurrentLogin { get; }
+        string RoomName { get; }
+        public List<RoomInfo> Rooms { get; }
+        public List<Player> Players { get; }
     }
 
     public interface ISettingsKeeper
     {
-        event Action ChangeLocalizationEvent;
+        event Action OnChangeLocalization;
         string GetLocalizedText(string key);
         string[] GetLocalizationVariants();
         int GetLocalizationId();
@@ -39,28 +46,16 @@ namespace Master.QSpaceCode
         float GetUiVolume();
     }
 
-    public interface IPunInfoKeeper
-    {
-        event Action<string> UpdateLoginEvent; 
-        event Action<List<Player>> PlayersUpdateEvent;
-        event Action<List<RoomInfo>> RoomsUpdateEvent;
-
-        string GetCurrentLogin();
-        string GetRoomName();
-        public List<RoomInfo> GetRooms();
-        public List<Player> GetPlayers();
-    }
-
     public interface IUiStateKeeper
     {
         MainMenuState GetMainMenuState();
-        event Action<MainMenuState> ChangeMainMenuStateEvent;
+        event Action<MainMenuState> OnChangeMainMenuState;
 
         MultiplayerMenuState GetMultiplayerMenuState();
-        event Action<MultiplayerMenuState> ChangeMultiplayerMenuStateEvent;
+        event Action<MultiplayerMenuState> OnChangeMultiplayerMenuState;
 
         GameMenuState GetGameMenuState();
-        event Action<GameMenuState> ChangeGameMenuStateEvent;
+        event Action<GameMenuState> OnChangeGameMenuState;
         
         bool HasWindowsStack { get; }
     }
@@ -69,10 +64,10 @@ namespace Master.QSpaceCode
     {
         SystemInputMap GetSystemInputMap();
         
-        event Action<SystemInputMap> ChangeSystemInputMapEvent; 
+        event Action<SystemInputMap> OnChangeSystemInputMap; 
         
-        event Action InputCancelEvent;
-        event Action InputPauseEvent;
+        event Action OnInputCancel;
+        event Action OnInputPause;
         
         Vector2 MoveVector { get; }
         float Rotation { get; }

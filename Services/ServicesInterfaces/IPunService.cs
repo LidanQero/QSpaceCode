@@ -2,7 +2,6 @@
 {
     public interface IPunService
     {
-        void GenerateNewLogin();
         void ConnectToLobby();
         void CreateWantedRoom();
         void SetWantedRoomPlayersCount(int count);

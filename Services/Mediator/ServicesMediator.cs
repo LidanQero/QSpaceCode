@@ -29,7 +29,6 @@ namespace Master.QSpaceCode.Services.Mediator
             };
 
             gameInfoKeeper = gameInfoService as IGameInfoKeeper;
-            punInfoKeeper = punService as IPunInfoKeeper;
             uiStateKeeper = uiService as IUiStateKeeper;
             uiInputKeeper = inputService as IUiInputKeeper;
             viewersKeeper = gameLogicService as IViewersKeeper;
@@ -48,7 +47,6 @@ namespace Master.QSpaceCode.Services.Mediator
 
         public readonly IGameInfoKeeper gameInfoKeeper;
         public readonly ISettingsKeeper settingsKeeper;
-        public readonly IPunInfoKeeper punInfoKeeper;
         public readonly IUiStateKeeper uiStateKeeper;
         public readonly IUiInputKeeper uiInputKeeper;
         public readonly IViewersKeeper viewersKeeper;

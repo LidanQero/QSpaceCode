@@ -4,13 +4,13 @@
     {
         private void OnEnable()
         {
-            Core.PunInfoKeeper.UpdateLoginEvent += RefreshLogin;
-            RefreshLogin(Core.PunInfoKeeper.GetCurrentLogin());
+            Core.GameInfoKeeper.OnUpdateLogin += RefreshLogin;
+            RefreshLogin(Core.GameInfoKeeper.CurrentLogin);
         }
 
         private void OnDisable()
         {
-            Core.PunInfoKeeper.UpdateLoginEvent -= RefreshLogin;
+            Core.GameInfoKeeper.OnUpdateLogin -= RefreshLogin;
         }
 
         private void RefreshLogin(string newLogin)

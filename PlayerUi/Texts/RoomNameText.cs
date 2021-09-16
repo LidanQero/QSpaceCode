@@ -4,7 +4,7 @@
     {
         private void OnEnable()
         {
-            tmpText.text = Core.PunInfoKeeper.GetRoomName();
+            tmpText.text = Core.GameInfoKeeper.RoomName;
         }
     }
 }

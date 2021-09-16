@@ -18,13 +18,13 @@ namespace Master.QSpaceCode.PlayerUi
 
         private void OnEnable()
         {
-            Core.SettingsKeeper.ChangeLocalizationEvent += Localize;
+            Core.SettingsKeeper.OnChangeLocalization += Localize;
             Localize();
         }
 
         private void OnDisable()
         {
-            Core.SettingsKeeper.ChangeLocalizationEvent -= Localize;
+            Core.SettingsKeeper.OnChangeLocalization -= Localize;
         }
 
         private void Localize()

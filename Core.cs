@@ -11,7 +11,6 @@ namespace Master.QSpaceCode
 
         public static IGameInfoKeeper GameInfoKeeper => ServicesMediator.gameInfoKeeper;
         public static ISettingsKeeper SettingsKeeper => ServicesMediator.settingsKeeper;
-        public static IPunInfoKeeper PunInfoKeeper => ServicesMediator.punInfoKeeper;
         public static IUiStateKeeper UiStateKeeper => ServicesMediator.uiStateKeeper;
         public static IUiInputKeeper UiInputKeeper => ServicesMediator.uiInputKeeper;
         public static IViewersKeeper ViewersKeeper => ServicesMediator.viewersKeeper;

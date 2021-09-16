@@ -13,14 +13,14 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         public override void Open()
         {
             base.Open();
-            Core.UiStateKeeper.ChangeMultiplayerMenuStateEvent += UpdateMultiplayerState;
+            Core.UiStateKeeper.OnChangeMultiplayerMenuState += UpdateMultiplayerState;
             UpdateMultiplayerState(Core.UiStateKeeper.GetMultiplayerMenuState());
         }
 
         public override void Close()
         {
             base.Close();
-            Core.UiStateKeeper.ChangeMultiplayerMenuStateEvent -= UpdateMultiplayerState;
+            Core.UiStateKeeper.OnChangeMultiplayerMenuState -= UpdateMultiplayerState;
         }
 
         private void UpdateMultiplayerState(MultiplayerMenuState newMultiplayerMenuState)

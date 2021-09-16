@@ -12,9 +12,9 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         {
         }
 
-        public event Action<MainMenuState> ChangeMainMenuStateEvent;
-        public event Action<MultiplayerMenuState> ChangeMultiplayerMenuStateEvent;
-        public event Action<GameMenuState> ChangeGameMenuStateEvent;
+        public event Action<MainMenuState> OnChangeMainMenuState;
+        public event Action<MultiplayerMenuState> OnChangeMultiplayerMenuState;
+        public event Action<GameMenuState> OnChangeGameMenuState;
         public bool HasWindowsStack => closeWindowsActions.Count > 0;
 
         private MainMenuState mainMenuState;
@@ -157,19 +157,19 @@ namespace Master.QSpaceCode.Services.ServicesClasses
         private void SetMainMenuState(MainMenuState newState)
         {
             mainMenuState = newState;
-            ChangeMainMenuStateEvent?.Invoke(newState);
+            OnChangeMainMenuState?.Invoke(newState);
         }
 
         private void SetMultiplayerState(MultiplayerMenuState newState)
         {
             multiplayerMenuState = newState;
-            ChangeMultiplayerMenuStateEvent?.Invoke(newState);
+            OnChangeMultiplayerMenuState?.Invoke(newState);
         }
 
         private void SetGameMenuState(GameMenuState newState)
         {
             gameMenuState = newState;
-            ChangeGameMenuStateEvent?.Invoke(newState);
+            OnChangeGameMenuState?.Invoke(newState);
         }
     }
 }

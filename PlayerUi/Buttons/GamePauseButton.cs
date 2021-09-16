@@ -8,13 +8,13 @@ namespace Master.QSpaceCode.PlayerUi.Buttons
         protected override void OnEnable()
         {
             base.OnEnable();
-            Core.UiInputKeeper.InputPauseEvent += PressButton;
+            Core.UiInputKeeper.OnInputPause += PressButton;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Core.UiInputKeeper.InputPauseEvent -= PressButton;
+            Core.UiInputKeeper.OnInputPause -= PressButton;
         }
         
         

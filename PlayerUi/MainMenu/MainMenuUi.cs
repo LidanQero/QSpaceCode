@@ -15,13 +15,13 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
 
         private void OnEnable()
         {
-            Core.UiStateKeeper.ChangeMainMenuStateEvent += UpdateMainMenuState;
+            Core.UiStateKeeper.OnChangeMainMenuState += UpdateMainMenuState;
             UpdateMainMenuState(Core.UiStateKeeper.GetMainMenuState());
         }
 
         private void OnDisable()
         {
-            Core.UiStateKeeper.ChangeMainMenuStateEvent -= UpdateMainMenuState;
+            Core.UiStateKeeper.OnChangeMainMenuState -= UpdateMainMenuState;
         }
 
         private void UpdateMainMenuState(MainMenuState mainMenuState)

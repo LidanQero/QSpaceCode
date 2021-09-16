@@ -25,14 +25,14 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         protected override void OnEnable()
         {
             base.OnEnable();
-            Core.PunInfoKeeper.RoomsUpdateEvent += UpdateRoomsButtons;
-            UpdateRoomsButtons(Core.PunInfoKeeper.GetRooms());
+            Core.GameInfoKeeper.OnRoomUpdate += UpdateRoomsButtons;
+            UpdateRoomsButtons(Core.GameInfoKeeper.Rooms);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Core.PunInfoKeeper.RoomsUpdateEvent -= UpdateRoomsButtons;
+            Core.GameInfoKeeper.OnRoomUpdate -= UpdateRoomsButtons;
         }
 
         private void UpdateRoomsButtons(List<RoomInfo> rooms)

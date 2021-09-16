@@ -14,13 +14,13 @@ namespace Master.QSpaceCode.PlayerUi.Game
 
         private void OnEnable()
         {
-            Core.UiStateKeeper.ChangeGameMenuStateEvent += UpdateGameMenuState;
+            Core.UiStateKeeper.OnChangeGameMenuState += UpdateGameMenuState;
             UpdateGameMenuState(Core.UiStateKeeper.GetGameMenuState());
         }
 
         private void OnDisable()
         {
-            Core.UiStateKeeper.ChangeGameMenuStateEvent -= UpdateGameMenuState;
+            Core.UiStateKeeper.OnChangeGameMenuState -= UpdateGameMenuState;
         }
 
         private void UpdateGameMenuState(GameMenuState gameMenuState)

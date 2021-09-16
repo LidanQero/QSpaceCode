@@ -5,13 +5,13 @@
         protected override void OnEnable()
         {
             base.OnEnable();
-            Core.UiInputKeeper.InputCancelEvent += PressButton;
+            Core.UiInputKeeper.OnInputCancel += PressButton;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Core.UiInputKeeper.InputCancelEvent -= PressButton;
+            Core.UiInputKeeper.OnInputCancel -= PressButton;
         }
     }
 }

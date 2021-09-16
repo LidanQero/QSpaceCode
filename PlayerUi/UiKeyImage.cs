@@ -20,13 +20,13 @@ namespace Master.QSpaceCode.PlayerUi
 
         private void OnEnable()
         {
-            Core.UiInputKeeper.ChangeSystemInputMapEvent += RefreshImage;
+            Core.UiInputKeeper.OnChangeSystemInputMap += RefreshImage;
             RefreshImage(Core.UiInputKeeper.GetSystemInputMap());
         }
 
         private void OnDisable()
         {
-            Core.UiInputKeeper.ChangeSystemInputMapEvent -= RefreshImage;
+            Core.UiInputKeeper.OnChangeSystemInputMap -= RefreshImage;
         }
 
         private void RefreshImage(SystemInputMap newSystemInputMap)

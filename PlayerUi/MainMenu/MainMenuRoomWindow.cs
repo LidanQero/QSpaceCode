@@ -24,14 +24,14 @@ namespace Master.QSpaceCode.PlayerUi.MainMenu
         protected override void OnEnable()
         {
             base.OnEnable();
-            Core.PunInfoKeeper.PlayersUpdateEvent += UpdatePlayers;
-            UpdatePlayers(Core.PunInfoKeeper.GetPlayers());
+            Core.GameInfoKeeper.OnPlayersUpdate += UpdatePlayers;
+            UpdatePlayers(Core.GameInfoKeeper.Players);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Core.PunInfoKeeper.PlayersUpdateEvent -= UpdatePlayers;
+            Core.GameInfoKeeper.OnPlayersUpdate -= UpdatePlayers;
         }
 
         private void UpdatePlayers(List<Player> players)

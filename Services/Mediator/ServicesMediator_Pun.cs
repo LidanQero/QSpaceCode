@@ -18,7 +18,7 @@ namespace Master.QSpaceCode.Services.Mediator
 
         public void GenerateNewLogin()
         {
-            punService.GenerateNewLogin();
+            gameInfoService.GenerateNewLogin();
         }
 
         public void CreateWantedRoom()
@@ -62,16 +62,6 @@ namespace Master.QSpaceCode.Services.Mediator
         public void ExitFromRoom()
         {
             punService.ExitFromRoom();
-        }
-
-        public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-        {
-            scenesService.TestLoadingScenesForPun(targetPlayer, changedProps);
-        }
-        
-        public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
-        {
-            
         }
     }
 }
