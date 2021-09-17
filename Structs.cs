@@ -22,7 +22,6 @@ namespace Master.QSpaceCode
     [Serializable]
     public struct LevelObjectInfo
     {
-        [NonSerialized] public LevelObject prefab;
         public string prefabName;
         public Vector3 position;
         public Quaternion rotation;
