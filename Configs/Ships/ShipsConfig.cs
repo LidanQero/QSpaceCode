@@ -8,6 +8,12 @@ namespace Master.QSpaceCode.Configs.Ships
     {
         [SerializeField] private ShipRoot shipRoot;
         [Space] [SerializeField] private ShipContainer testShipConfig;
+        [Space] [SerializeField] private float baseWeapons;
+        [SerializeField] private float changeWeaponsPerStep;
+        [Space] [SerializeField] private float baseModules;
+        [SerializeField] private float changeModulesPerStep;
+        [Space] [SerializeField] private float baseHealth;
+        [SerializeField] private float changeHealthPerStep;
         [Space] [SerializeField] private float baseSpeed;
         [SerializeField] private float baseMoveCost;
         [SerializeField] private float changeSpeedPerStep;
@@ -18,6 +24,18 @@ namespace Master.QSpaceCode.Configs.Ships
 
 
         public ShipRoot ShipRoot => shipRoot;
+
+        public float BaseWeapons => baseWeapons;
+
+        public float ChangeWeaponsPerStep => changeWeaponsPerStep;
+
+        public float BaseModules => baseModules;
+
+        public float ChangeModulesPerStep => changeModulesPerStep;
+
+        public float BaseHealth => baseHealth;
+
+        public float ChangeHealthPerStep => changeHealthPerStep;
         public float BaseSpeed => baseSpeed;
         public float BaseMoveCost => baseMoveCost;
         public float ChangeSpeedPerStep => changeSpeedPerStep;

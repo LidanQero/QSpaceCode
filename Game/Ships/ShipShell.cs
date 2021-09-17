@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using Master.QSpaceCode.Configs;
+using Master.QSpaceCode.Game.Interfaces;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Master.QSpaceCode.Game.Ships
 {
-    public abstract class ShipShell : MonoBehaviour
+    public abstract class ShipShell : MonoBehaviour, IHitable
     {
         [Space] [SerializeField] private Transform[] marchJets;
         [SerializeField] private Transform[] forwardJets;
@@ -14,14 +17,46 @@ namespace Master.QSpaceCode.Game.Ships
 
         private readonly Dictionary<Transform, Vector3> jetsStartScale = new Dictionary<Transform, Vector3>();
 
+        private PhotonView photonView;
+
+        private float maxHealth;
+        private float currentHealth;
+
         private void Awake()
         {
+            photonView = GetComponentInParent<PhotonView>();
             foreach (var jet in marchJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in forwardJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets1) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets2) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets3) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets4) jetsStartScale.Add(jet, jet.localScale);
+        }
+        
+        public void Hit(float damage)
+        {
+            if (!photonView.IsMine) return;
+            currentHealth -= damage;
+        }
+
+        public void SetMaxHealth(int characteristic)
+        {
+            var basicHealth = CurrentConfigs.ShipsConfig.BaseHealth;
+            var mod = (characteristic - 6) * CurrentConfigs.ShipsConfig.ChangeHealthPerStep;
+            var newMaxHealth = basicHealth + mod;
+            
+            if (maxHealth > 0)
+            {
+                var percents = newMaxHealth / maxHealth;
+                currentHealth *= percents;
+            }
+
+            maxHealth = newMaxHealth;
+        }
+
+        public void ResetHealth()
+        {
+            currentHealth = maxHealth;
         }
 
         public void UpdateJets(Vector2 moveVector, float rotation)

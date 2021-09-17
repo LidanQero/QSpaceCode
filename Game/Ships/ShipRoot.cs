@@ -65,6 +65,8 @@ namespace Master.QSpaceCode.Game.Ships
             speedCharacteristic = shellConfig.SpeedCharacteristic + mods.speedMod + mods.speedUpgrade;
             energyLimitCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.maxEnergyMod + mods.maxEnUpgrade;
             energyRegenCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.energyRegMod + mods.enRegUpgrade;
+            
+            shell.SetMaxHealth(healthCharacteristic);
         }
 
         private void Move()
@@ -155,6 +157,7 @@ namespace Master.QSpaceCode.Game.Ships
 
             shellConfig.OnConfigChanged += UpdateCharacteristics;
             UpdateCharacteristics();
+            shell.ResetHealth();
         }
     }
 }
