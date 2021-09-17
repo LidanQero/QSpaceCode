@@ -151,7 +151,7 @@ namespace Master.QSpaceCode.Game.Ships
             if (shellConfig) shellConfig.OnConfigChanged -= UpdateCharacteristics;
             
             var newContainer = JsonUtility.FromJson<ShipContainer>(shipContainer);
-            shellConfig = Resources.Load<ShipShellConfig>($"Shells/{newContainer.shell}");
+            shellConfig = Resources.Load<ShipShellConfig>($"ShellsConfigs/{newContainer.shell}");
             shell = Instantiate(shellConfig.ShellPrefab, Transform);
             generator = new ShipGenerator();
 

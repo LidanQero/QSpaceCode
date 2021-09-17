@@ -45,7 +45,7 @@ namespace Master.QSpaceCode.Static
             }
             
             var containerJson = JsonUtility.ToJson(levelContainer, true);
-            var path = $"Assets/Master/Resources/Levels/{levelContainer.levelName}.json";
+            var path = $"Assets/Master/Resources/LevelsData/{levelContainer.levelName}.json";
             File.WriteAllText(path, containerJson);
 
             AssetDatabase.Refresh();
@@ -53,7 +53,7 @@ namespace Master.QSpaceCode.Static
 
         public static List<LevelContainer> GetAllLevels()
         {
-            var assets = Resources.LoadAll("Levels/");
+            var assets = Resources.LoadAll("LevelsData/");
             var textAssets = new List<string>();
             var levels = new List<LevelContainer>();
 

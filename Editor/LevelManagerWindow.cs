@@ -83,7 +83,7 @@ namespace Master.QSpaceCode.Editor
 
                 foreach (var levelObject in level.levelObjects)
                 {
-                    var patch = $"Prefabs/LevelObjects/{levelObject.prefabName}";
+                    var patch = $"LevelsStatic/{levelObject.prefabName}";
                     var newLevelObjectPrefab = Resources.Load<LevelObject>(patch);
                     var newLevelObject = PrefabUtility.InstantiatePrefab(newLevelObjectPrefab) as LevelObject;
                     if (!newLevelObject) continue;
