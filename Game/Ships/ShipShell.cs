@@ -18,6 +18,7 @@ namespace Master.QSpaceCode.Game.Ships
         private readonly Dictionary<Transform, Vector3> jetsStartScale = new Dictionary<Transform, Vector3>();
 
         private PhotonView photonView;
+        private ShipRoot shipRoot;
 
         private float maxHealth;
         private float currentHealth;
@@ -25,6 +26,7 @@ namespace Master.QSpaceCode.Game.Ships
         private void Awake()
         {
             photonView = GetComponentInParent<PhotonView>();
+            shipRoot = GetComponentInParent<ShipRoot>();
             foreach (var jet in marchJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in forwardJets) jetsStartScale.Add(jet, jet.localScale);
             foreach (var jet in jets1) jetsStartScale.Add(jet, jet.localScale);
@@ -36,6 +38,11 @@ namespace Master.QSpaceCode.Game.Ships
         public void Hit(float damage)
         {
             if (!photonView.IsMine) return;
+            photonView.RPC(nameof(shipRoot.GetDamage), RpcTarget.All, damage);
+        }
+
+        public void ApplyDamage(float damage)
+        {
             currentHealth -= damage;
         }
 

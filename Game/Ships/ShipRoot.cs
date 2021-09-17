@@ -14,9 +14,9 @@ namespace Master.QSpaceCode.Game.Ships
         private ShipShellConfig shellConfig;
         private ShipShell shell;
         private ShipGenerator generator;
-        
+
         private CharacterController characterController;
-        
+
         private int weaponCharacteristic;
         private int modulesCharacteristic;
         private int speedCharacteristic;
@@ -53,20 +53,26 @@ namespace Master.QSpaceCode.Game.Ships
             shell.UpdateJets(InputMove, InputRotation);
         }
 
-        private void UpdateCharacteristics()
+        [PunRPC]
+        public void LoadConfig(string shipContainer)
         {
-            if (!shellConfig) return;
-            
-            var mods = Core.GameInfoKeeper.GetPlayerCharacteristicModifiers(PhotonNetwork.LocalPlayer);
+            if (shell) Destroy(shell.gameObject);
+            if (shellConfig) shellConfig.OnConfigChanged -= UpdateCharacteristics;
 
-            weaponCharacteristic = shellConfig.WeaponCharacteristic + mods.weaponMod + mods.weaponUpgrade;
-            modulesCharacteristic = shellConfig.ModulesCharacteristic + mods.modulesMod + mods.modulesUpgrade;
-            healthCharacteristic = shellConfig.HealthCharacteristic + mods.healthMod + mods.healthUpgrade;
-            speedCharacteristic = shellConfig.SpeedCharacteristic + mods.speedMod + mods.speedUpgrade;
-            energyLimitCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.maxEnergyMod + mods.maxEnUpgrade;
-            energyRegenCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.energyRegMod + mods.enRegUpgrade;
-            
-            shell.SetMaxHealth(healthCharacteristic);
+            var newContainer = JsonUtility.FromJson<ShipContainer>(shipContainer);
+            shellConfig = Resources.Load<ShipShellConfig>($"ShellsConfigs/{newContainer.shell}");
+            shell = Instantiate(shellConfig.ShellPrefab, Transform);
+            generator = new ShipGenerator();
+
+            shellConfig.OnConfigChanged += UpdateCharacteristics;
+            UpdateCharacteristics();
+            shell.ResetHealth();
+        }
+
+        [PunRPC]
+        public void GetDamage(float damage)
+        {
+            shell.ApplyDamage(damage);
         }
 
         private void Move()
@@ -80,7 +86,7 @@ namespace Master.QSpaceCode.Game.Ships
             moveCost *= Time.deltaTime;
             marchSpeed *= Time.deltaTime;
             marchCost *= Time.deltaTime;
-            
+
             energyCost += Mathf.Abs(InputMove.x) * moveCost;
             if (InputMove.y > 0) energyCost += InputMove.y * marchCost;
             else energyCost += Mathf.Abs(InputMove.y) * moveCost;
@@ -94,6 +100,22 @@ namespace Master.QSpaceCode.Game.Ships
             else targetMove += Transform.forward * InputMove.y * moveSpeed;
 
             characterController.Move(targetMove);
+        }
+
+        private void UpdateCharacteristics()
+        {
+            if (!shellConfig) return;
+
+            var mods = Core.GameInfoKeeper.GetPlayerCharacteristicModifiers(PhotonNetwork.LocalPlayer);
+
+            weaponCharacteristic = shellConfig.WeaponCharacteristic + mods.weaponMod + mods.weaponUpgrade;
+            modulesCharacteristic = shellConfig.ModulesCharacteristic + mods.modulesMod + mods.modulesUpgrade;
+            healthCharacteristic = shellConfig.HealthCharacteristic + mods.healthMod + mods.healthUpgrade;
+            speedCharacteristic = shellConfig.SpeedCharacteristic + mods.speedMod + mods.speedUpgrade;
+            energyLimitCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.maxEnergyMod + mods.maxEnUpgrade;
+            energyRegenCharacteristic = shellConfig.EnergyRegenCharacteristic + mods.energyRegMod + mods.enRegUpgrade;
+
+            shell.SetMaxHealth(healthCharacteristic);
         }
 
         private void Rotation()
@@ -113,19 +135,19 @@ namespace Master.QSpaceCode.Game.Ships
                 InputRotation = 0;
                 rotationSpeedMod = 0;
             }
-            
+
             var rotation = Transform.rotation;
             var angle = rotationSpeedMod * speed;
             rotation *= Quaternion.AngleAxis(angle, Vector3.up);
             Transform.rotation = rotation;
         }
-        
+
         private void GetMoveSpeed(int characteristic, out float speed, out float powerSpend)
         {
             var config = CurrentConfigs.ShipsConfig;
-            var mod = config .ChangeSpeedPerStep * (characteristic - 6);
-            speed = (config .BaseSpeed + mod) * shellConfig.MoveSpeedMod;
-            powerSpend = config .BaseMoveCost * shellConfig.MovePowerSpendMod;
+            var mod = config.ChangeSpeedPerStep * (characteristic - 6);
+            speed = (config.BaseSpeed + mod) * shellConfig.MoveSpeedMod;
+            powerSpend = config.BaseMoveCost * shellConfig.MovePowerSpendMod;
         }
 
         private void GetMarchSpeed(int characteristic, out float speed, out float powerSpend)
@@ -142,22 +164,6 @@ namespace Master.QSpaceCode.Game.Ships
             var mod = config.ChangeSpeedPerStep * (characteristic - 6);
             speed = (config.BaseSpeed + mod) * shellConfig.RotateSpeedMod;
             powerSpend = config.BaseMoveCost * shellConfig.RotatePowerSpendMod;
-        }
-
-        [PunRPC]
-        public void LoadConfig(string shipContainer)
-        {
-            if (shell) Destroy(shell.gameObject);
-            if (shellConfig) shellConfig.OnConfigChanged -= UpdateCharacteristics;
-            
-            var newContainer = JsonUtility.FromJson<ShipContainer>(shipContainer);
-            shellConfig = Resources.Load<ShipShellConfig>($"ShellsConfigs/{newContainer.shell}");
-            shell = Instantiate(shellConfig.ShellPrefab, Transform);
-            generator = new ShipGenerator();
-
-            shellConfig.OnConfigChanged += UpdateCharacteristics;
-            UpdateCharacteristics();
-            shell.ResetHealth();
         }
     }
 }
